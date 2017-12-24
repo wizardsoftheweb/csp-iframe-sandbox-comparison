@@ -1,0 +1,11 @@
+version: '3'
+
+services:
+  php:
+    image: 'php:7.0-cli'
+    container_name: 'csp-sandbox-example'
+    ports:
+      - '9001:9001'
+    volumes:
+      - './:/usr/src/csp-example'
+    command: 'php -S 0.0.0.0:9001 -t /usr/src/csp-example'

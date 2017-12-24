@@ -1,0 +1,287 @@
+<html>
+
+<head>
+    <title>CSP and iframe Sandboxing | wizardsoftheweb</title>
+    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" />
+    <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <link href="//gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
+    <link href="//maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.2/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-2Z7/vC4qa8c+Ie2wHTTl23UC/WUQvArGcavaBvCBwEfbQFA/NiQ7jp30yzfsa5+p" crossorigin="anonymous">
+    <!-- <link href="https://maxcdn.bootstrapcdn.com/bootswatch/4.0.0-beta.2/slate/bootstrap.min.css" rel="stylesheet" integrity="sha384-nu0Rfs+Ud66mJzSLRuWBCMvk17+i5WBRPdLmS2djwI7YXUHlBLBsc1dHdgPyLsFO" crossorigin="anonymous"> -->
+    <!-- <link href="//cdn.rawgit.com/prikhi/bootstrap-molokai/ab871ace/dist/css/bootstrap.min.css" rel="stylesheet"> -->
+    <style type="text/css">
+    html,
+    body > main {
+        font-size: 16px;
+        font-family: "Lato", serif;
+    }
+
+    body > main a > code {
+        color: inherit;
+    }
+
+    body > main code {
+        font-family: "Roboto Mono", monospace;
+        padding: 0rem 0.4rem;
+        color: #f8f8f2;
+        background-color: #1b1d1e;
+        border: 1px solid #505354;
+    }
+
+    #embed-here iframe {
+        background-color: white;
+        border: 3px solid black;
+        min-height: 150px;
+    }
+
+    .opt-disabled {
+        cursor: not-allowed;
+    }
+
+    th.disabled span {
+        opacity: .65;
+    }
+
+    #sandbox-controls {
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #embed-changer .nav-tabs {
+        display: flex;
+        flex-flow: row;
+        align-items: center;
+        justify-content: center;
+    }
+
+    #embed-changer .nav-tabs li {
+        float: none;
+    }
+
+    th:first-of-type {
+        text-align: right;
+    }
+
+    td,
+    th {
+        text-align: center;
+    }
+
+    footer {
+        margin-top: 20px;
+    }
+
+    </style>
+</head>
+
+<body>
+    <main class="container">
+        <header class="row">
+            <h1 class="col-md-12">CSP and <code>iframe</code> Sandboxing</h1>
+        </header>
+        <section class="row">
+            <h2 class="col-md-12"><a name="overview">Overview</a></h2>
+            <p class="col-md-12">
+                This page attempts to illustrate how <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox" target="_blank"><code>Content-Security-Policy</code> <code>sandbox</code> headers</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox" target="_blank"><code>iframe</code> <code>sandbox</code> attributes</a> interact. I couldn't find any practical examples and wasn't sure how this would actually turn out, so I built this to figure it out. <strong>tl;dr:</strong> always set the <code>iframe</code> attribute; also set the CSP header when you can.
+            </p>
+            <p class="col-md-12">
+                Using the switches below, you can change the CSP header and the <code>iframe</code> attribute. The external file, <code>embed-me.php</code>, is a simple PHP script that creates a CSP header from <code>$_GET</code> params and serves a very basic HTML page with some JavaScript.
+            </p>
+            <p class="col-md-12">
+                I didn't actually test very many <code>sandbox</code> options. If there's something you'd like to see tested, shoot me an email (<code>cj@</code> this website) or fork the repo.
+            </p>
+            <p class="col-md-12">
+                <strong>WARNING:</strong> disabling both <code>sandbox</code>es or turning on <code>allow-modals</code> triggers a vanilla <code>alert</code>. <code>alert</code>s are supremely annoying and should never be used unless you're trying to illustrate specific behavior (or you need a quick way to leave content live but make sure no one uses it more than once).
+            </p>
+        </section>
+        <section class="row">
+            <h2 class="col-md-12"><a name="sandbox-demo"><code>sandbox</code> demo</a></h2>
+            <section class="col-md-12" id="sandbox-controls">
+                <table class="table table-sm" style="width: auto">
+                    <thead>
+                        <tr>
+                            <th>Source</th>
+                            <th><code>sandbox</code></th>
+                            <th><code>allow-scripts</code></th>
+                            <th><code>allow-modals</code></th>
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="csp-controls" data-toggle="tooltip">
+                            <th><span><code>Content-Security-Policy</code> header<span></th>
+                            <td class="always-enabled">
+                                <input id="csp-sandbox" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" checked>
+                            </td>
+                            <td>
+                                <input id="csp-allow-scripts" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+                            </td>
+                            <td data-toggle="tooltip">
+                                <input id="csp-allow-modals" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" disabled>
+                            </td>
+                            <td class="always-enabled">
+                                <button class="btn btn-primary">Reset</button>
+                            </td>
+                        </tr>
+                        <tr id="iframe-controls" data-toggle="tooltip">
+                            <th>
+                                <span><code>iframe</code> attribute</span>
+                            </th>
+                            <td class="always-enabled">
+                                <input id="iframe-sandbox" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" checked>
+                            </td>
+                            <td data-toggle="tooltip">
+                                <input id="iframe-allow-scripts" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger">
+                            </td>
+                            <td data-toggle="tooltip">
+                                <input id="iframe-allow-modals" type="checkbox" data-toggle="toggle" data-onstyle="success" data-offstyle="danger" disabled>
+                            </td>
+                            <td class="always-enabled">
+                                <button class="btn btn-primary">Reset</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </section>
+            <section id="embed-here" class="col-md-12">
+            </section>
+        </section>
+        <footer class="row">
+            <h2 class="col-md-12"><a name="other-stuff">Other Stuff</a></h2>
+            <p class="col-md-12">
+                This demo makes use of
+                <ul>
+                    <li><a href="//jquery.com/" target="_blank">jQuery</a></li>
+                    <li><a href="//getbootstrap.com" target="_blank">Bootstrap</a></li>
+                    <li><a href="//bootswatch.com/darkly/" target="_blank">Bootswatch's Darkly</a> (with some local modifications)</li>
+                    <li><a href="//www.bootstraptoggle.com" target="_blank">Bootstrap Toggle</a></li>
+                    <li><a href="//fonts.google.com/specimen/Lato" target="_blank">Lato via Google Fonts</a></li>
+                    <li><a href="//fonts.google.com/specimen/Roboto+Mono" target="_blank"><code>Roboto Mono</code> via Google Fonts</a></li>
+                </ul>
+            </p>
+            <p class="col-md-12">
+                This page falls under <a href="" target="_blank">the source's ISC license</a>.
+            </p>
+            <p class="col-md-12">
+                I wrote about this on my blog (jk not yet; update when I do).
+            </p>
+        </footer>
+        <script src="//code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
+        <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+        <script src="//gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+        <script type="text/javascript">
+        const EMBED_CONTAINER = $("#embed-here");
+        const SANDBOX_CONTROLS = $("#sandbox-controls");
+        const OPTION_STATE = {
+            csp: {
+                controls: $("#csp-controls"),
+                sandbox: $("#csp-sandbox"),
+                scripts: $("#csp-allow-scripts"),
+                modals: $("#csp-allow-modals"),
+            },
+            iframe: {
+                controls: $("#iframe-controls"),
+                sandbox: $("#iframe-sandbox"),
+                scripts: $("#iframe-allow-scripts"),
+                modals: $("#iframe-allow-modals"),
+            },
+        };
+
+        $(document).ready(function() {
+            rebuildAllControlStates();
+
+            reloadEmbed();
+
+            SANDBOX_CONTROLS.find("input[type='checkbox']").change(function() {
+                reloadEmbed();
+            });
+
+            SANDBOX_CONTROLS.find("td > button.btn.btn-primary").click(function() {
+                let owningRow = $(this).closest("tr");
+                owningRow.find("input[id$='sandbox']").bootstrapToggle("on");
+                owningRow.find("input[id*='-allow-']").each(function() {
+                    $(this)
+                        .bootstrapToggle("enable")
+                        .bootstrapToggle("off");
+                });
+                reloadEmbed();
+            });
+        });
+
+        function reloadEmbed() {
+            EMBED_CONTAINER.find("iframe").remove();
+            let embed = $("<iframe class='col-md-8 col-md-push-2' />");
+            let source = "embed-me.php";
+            let cspSandboxed = OPTION_STATE.csp.sandbox.is(":checked");
+            if (cspSandboxed) {
+                source += "?sandbox=on";
+                if (OPTION_STATE.csp.scripts.is(":checked")) {
+                    source += "&scripts=allow";
+                    if (OPTION_STATE.csp.modals.is(":checked")) {
+                        source += "&modals=allow";
+                    }
+                }
+            }
+            embed.attr("src", source);
+            let iframeSandboxed = OPTION_STATE.iframe.sandbox.is(":checked");
+            if (iframeSandboxed) {
+                let options = [];
+                if (OPTION_STATE.iframe.scripts.is(":checked")) {
+                    options.push("allow-scripts");
+                    if (OPTION_STATE.iframe.modals.is(":checked")) {
+                        options.push("allow-modals");
+                    }
+                }
+                if (options) {
+                    embed.attr("sandbox", options.join(" "));
+                }
+            }
+            EMBED_CONTAINER.append(embed);
+            rebuildAllControlStates(cspSandboxed, iframeSandboxed);
+        }
+
+        function rebuildAllControlStates(cspSandboxed = true, iframeSandboxed = true) {
+            rebuildSingleControlState("csp", cspSandboxed);
+            rebuildSingleControlState("iframe", iframeSandboxed);
+        }
+
+        function rebuildSingleControlState(source, sandboxed = true) {
+            OPTION_STATE[source].controls.toggleClass("danger", !sandboxed);
+            OPTION_STATE[source].controls.find("th, td:not(.always-enabled) .btn").toggleClass("disabled", !sandboxed);
+            toggleToggleInteraction(OPTION_STATE[source].scripts, !sandboxed);
+            rebuildSingleModalState(source, !sandboxed || !OPTION_STATE[source].scripts.is(":checked"));
+            if (sandboxed) {
+                OPTION_STATE[source].controls.tooltip("destroy");
+            } else {
+                OPTION_STATE[source].controls.find("td, th").tooltip("destroy");
+                OPTION_STATE[source].controls.tooltip({
+                    title: `The ${source} sandbox is not currently enabled`
+                });
+            }
+        }
+
+        function toggleToggleInteraction(toggleElement, disabled = true) {
+            toggleElement.bootstrapToggle(disabled ? "disable" : "enable");
+            let owningCell =
+            toggleElement.parent().find(".btn").toggleClass("opt-disabled", disabled);
+        }
+
+        function rebuildSingleModalState(source, scriptsDisabled = true) {
+            toggleToggleInteraction(OPTION_STATE[source].modals, scriptsDisabled);
+            OPTION_STATE[source].modals.closest("td")
+                .toggleClass("opt-disabled", scriptsDisabled)
+                .tooltip(
+                    scriptsDisabled ? {
+                        title: "<code>allow-scripts</code> must be enabled",
+                        html: true,
+                        container: "#sandbox-controls",
+                    } :
+                    "destroy"
+                );
+        }
+
+        </script>
+</body>
+
+</html>

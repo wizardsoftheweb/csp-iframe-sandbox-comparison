@@ -1,13 +1,20 @@
 <?php
-if ('on' === $_GET['sandbox']) {
-    $csp = 'Content-Security-Policy: sandbox';
-    if ('allow' === $_GET['scripts']) {
-        $csp += ' allow-scripts';
-        if ('allow' === $_GET['modals']) {
-            $csp += ' allow-modals';
-        }
-    }
-    header("{$csp};");
+switch ($_GET['sandbox']) {
+    case 'on':
+        $csp = 'sandbox';
+        break;
+    case 'scripts':
+        $csp = 'sandbox allow-scripts';
+        break;
+    case 'modals':
+        $csp = 'sandbox allow-scripts allow-modals';
+        break;
+    default:
+        $csp = '';
+        break;
+}
+if ($csp) {
+    header("Content-Security-Policy: {$csp};");
 }
 ?>
 <html>

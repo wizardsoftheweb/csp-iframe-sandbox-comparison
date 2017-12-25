@@ -215,12 +215,13 @@
             let source = "embed-me.php";
             let cspSandboxed = OPTION_STATE.csp.sandbox.is(":checked");
             if (cspSandboxed) {
-                source += "?sandbox=on";
-                if (OPTION_STATE.csp.scripts.is(":checked")) {
+                source += "?sandbox="
+                if (OPTION_STATE.csp.modals.is(":checked")) {
+                    source += "modals";
+                } else if (OPTION_STATE.csp.scripts.is(":checked")) {
                     source += "&scripts=allow";
-                    if (OPTION_STATE.csp.modals.is(":checked")) {
-                        source += "&modals=allow";
-                    }
+                } else {
+                    source += "on";
                 }
             }
             embed.attr("src", source);

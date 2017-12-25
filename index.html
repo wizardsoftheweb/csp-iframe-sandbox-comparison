@@ -41,6 +41,10 @@
         margin-bottom: 20px;
     }
 
+    main > * {
+        margin-bottom: 50px;
+    }
+
     #embed-here iframe {
         width: 100%;
         padding: 5px 15px;
@@ -80,9 +84,14 @@
 
     footer {
         margin-top: 20px;
+        margin-bottom: 250px;
     }
 
     @media screen and (max-width: 767px) {
+        main > * {
+            margin-bottom: 0;
+        }
+
         nav .col-xs-12 {
             padding: 0;
         }
@@ -90,16 +99,12 @@
         .xs-hide {
             display: none;
         }
-
-        footer {
-            margin-bottom: 250px;
-        }
     }
 
     </style>
 </head>
 
-<body data-spy="scroll" data-target="#main-nav" data-offset="70">
+<body data-spy="scroll" data-target="#main-nav" data-offset="90">
     <nav id="main-nav" class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="row">
@@ -258,9 +263,8 @@
             history.replaceState(
                 {},
                 "",
-                currentHref.replace(storedHash, currentHas)
+                currentHref.replace(storedHash, "") + currentHash
                 );
-            console.log(currentHash);
         });
 
         $("a[href^='#']").not("a[href='#']").click(function(event) {

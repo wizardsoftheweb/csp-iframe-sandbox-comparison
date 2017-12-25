@@ -258,9 +258,8 @@
             history.replaceState(
                 {},
                 "",
-                currentHref.replace(storedHash, currentHas)
+                currentHref.replace(storedHash, "") + currentHash
                 );
-            console.log(currentHash);
         });
 
         $("a[href^='#']").not("a[href='#']").click(function(event) {

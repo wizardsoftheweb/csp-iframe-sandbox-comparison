@@ -309,10 +309,12 @@
         let cspSandboxed = OPTION_STATE.csp.sandbox.is(":checked");
         if (cspSandboxed) {
             source += "?sandbox="
-            if (OPTION_STATE.csp.modals.is(":checked")) {
-                source += "modals";
-            } else if (OPTION_STATE.csp.scripts.is(":checked")) {
-                source += "scripts";
+            if (OPTION_STATE.csp.scripts.is(":checked")) {
+                if (OPTION_STATE.csp.modals.is(":checked")) {
+                    source += "modals";
+                } else {
+                    source += "scripts";
+                }
             } else {
                 source += "on";
             }
@@ -357,8 +359,7 @@
 
     function toggleToggleInteraction(toggleElement, disabled = true) {
         toggleElement.bootstrapToggle(disabled ? "disable" : "enable");
-        let owningCell =
-            toggleElement.parent().find(".btn").toggleClass("opt-disabled", disabled);
+        toggleElement.parent().find(".btn").toggleClass("disabled", disabled);
     }
 
     function rebuildSingleModalState(source, scriptsDisabled = true) {

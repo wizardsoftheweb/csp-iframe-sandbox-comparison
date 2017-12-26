@@ -91,16 +91,54 @@
         margin-bottom: 250px;
     }
 
-    @media screen and (max-width: 767px) {
-        article>* {
-            margin-bottom: 0;
+    @media screen and (max-width: 991px) {
+        #main-nav .navbar-header {
+            float: none;
         }
 
-        nav .col-xs-12 {
+        #main-nav .col-sm-12 {
             padding: 0;
         }
 
-        .xs-hide {
+        #main-nav .container {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 801px) and (max-width: 991px) {
+        #main-nav .col-sm-12 {
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+
+        #main-nav .collapse.navbar-collapse {
+            display: none !important;
+        }
+
+        #main-nav .collapse.navbar-collapse.in {
+            display: block !important;
+        }
+
+        #main-nav ul.nav.navbar-nav li {
+            float: none;
+        }
+
+        #main-nav .navbar-brand {
+            margin-left: 0;
+        }
+
+        #main-nav .navbar-header .navbar-toggle {
+            display: block;
+        }
+    }
+
+    @media screen and (max-width: 420px) {
+        #main-nav .shrink {
             display: none;
         }
     }
@@ -112,14 +150,14 @@
     <nav id="main-nav" class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="row">
-                <div class="col-xs-12">
+                <div class="col-sm-12">
                     <div class="navbar-header">
                         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navCollapse">
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="#"><code class="xs-hide">CSP|iframe</code> <code>sandbox</code> Comparison</a>
+                        <a class="navbar-brand" href="#"><code class="shrink">CSP|iframe</code> <code>sandbox</code> Comparison</a>
                     </div>
                     <div id="navCollapse" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">

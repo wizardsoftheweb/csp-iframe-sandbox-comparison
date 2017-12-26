@@ -91,6 +91,52 @@
         margin-bottom: 250px;
     }
 
+    @media screen and (max-width: 992px) {
+        #main-nav .navbar-header {
+            float: none;
+        }
+
+        #main-nav .col-sm-12 {
+            padding: 0;
+        }
+
+        #main-nav .container {
+            width: 100%;
+        }
+    }
+
+    @media (min-width: 801px) and (max-width: 991px) {
+        #main-nav .col-sm-12 {
+            display: flex;
+            flex-flow: row;
+            align-items: center;
+            justify-content: center;
+        }
+    }
+
+    @media screen and (max-width: 800px) {
+
+        #main-nav .collapse.navbar-collapse {
+            display: none !important;
+        }
+
+        #main-nav .collapse.navbar-collapse.in {
+            display: block !important;
+        }
+
+        #main-nav ul.nav.navbar-nav li {
+            float: none;
+        }
+
+        #main-nav .navbar-brand {
+            margin-left: 0;
+        }
+
+        #main-nav .navbar-header .navbar-toggle {
+            display: block;
+        }
+    }
+
     @media screen and (max-width: 767px) {
         article>* {
             margin-bottom: 0;

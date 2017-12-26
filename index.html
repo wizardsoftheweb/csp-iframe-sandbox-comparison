@@ -41,7 +41,7 @@
         margin-bottom: 20px;
     }
 
-    main > * {
+    main>* {
         margin-bottom: 50px;
     }
 
@@ -88,7 +88,7 @@
     }
 
     @media screen and (max-width: 767px) {
-        main > * {
+        main>* {
             margin-bottom: 0;
         }
 
@@ -109,30 +109,50 @@
         <div class="container">
             <div class="row">
                 <div class="col-xs-12">
-            <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navCollapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                <a class="navbar-brand" href="#"><code class="xs-hide">CSP|iframe</code> <code>sandbox</code> Comparison</a>
-            </div>
-            <div id="navCollapse" class="collapse navbar-collapse">
-                <ul class="nav navbar-nav">
-                    <li class="nav-item" style="display: none;"><a href="#top">Top</a></li>
-                    <li class="nav-item"><a href="#overview">Overview</a></li>
-                    <li class="nav-item"><a href="#sandbox-demo"><code>sandbox</code> Demo</a></li>
-                    <li class="nav-item"><a href="#other-stuff">Other Stuff</a></li>
-                </ul>
+                    <div class="navbar-header">
+                        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navCollapse">
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                            <span class="icon-bar"></span>
+                        </button>
+                        <a class="navbar-brand" href="#"><code class="xs-hide">CSP|iframe</code> <code>sandbox</code> Comparison</a>
+                    </div>
+                    <div id="navCollapse" class="collapse navbar-collapse">
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item" style="display: none;"><a href="#top">Top</a></li>
+                            <li class="nav-item"><a href="#overview">Overview</a></li>
+                            <li class="nav-item"><a href="#sandbox-demo"><code>sandbox</code> Demo</a></li>
+                            <li class="nav-item"><a href="#other-stuff">Other Stuff</a></li>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
-        </div>
-    </div>
     </nav>
     <main class="container">
         <header class="row" id="top">
             <h1 class="col-md-12"><code>CSP</code> and <code>iframe</code> <code>sandbox</code> Comparison</a></h1>
         </header>
+        <section class="row" id="privacy">
+            <h2 class="col-md-12">Privacy</h2>
+            <p class="col-md-12">
+                If you've loaded this page on my website, <code>wizardsoftheweb.pro</code>, you should know that I'm actively tracking your usage via <a href="https://analytics.google.com/" target="_blank">Google Analytics</a>. Google collects <a href="https://www.google.com/policies/privacy/#infocollect" target="_blank">quite a bit of information</a> which is then <a href="https://www.google.com/policies/privacy/#infouse" target="_blank">shared across Google apps</a>, including Google Analytics.
+            </p>
+            <p class="col-md-12">
+                As far as I know, Google Analytics does not respect <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/DNT" target="_blank">the Do Not Track header</a>. To opt out on my site, install the relevant <a href="https://tools.google.com/dlpage/gaoptout" target="_blank">Google Analytics Opt-out Browser Add-on</a>. I also highly recommend reading <a href="https://www.eff.org/issues/do-not-track" target="_blank">EFF's DNT overview</a> and installing <a href="https://www.eff.org/privacybadger" target="_blank">EFF's Privacy Badger</a>.
+            </p>
+            <p class="col-md-12">
+                If you're cool with me (and by extension Google) tracking your usage, I really appreciate it. I'm curious about how you interact with my content and eventually want to play with the data. So you know, I'm monitoring these events:
+            </p>
+            <div class="col-md-12">
+                <div class="list-group" style="margin-bottom:0">
+                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#Pageview" target="_gtmhelp" class="list-group-item">Page views</a>
+                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#scroll" target="_gtmhelp" class="list-group-item">Scroll depth</a>
+                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#Click" target="_gtmhelp" class="list-group-item">Clicks on <code>.btn</code>s and <code>a</code>nchors (links)</a>
+                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#HistoryChange" target="_gtmhelp" class="list-group-item">History changes</a>
+                </div>
+            </div>
+        </section>
         <section class="row" id="overview">
             <h2 class="col-md-12">Overview</a></h2>
             <p class="col-md-12">
@@ -260,11 +280,10 @@
             const currentHash = $("a[href^='#']", event.target)
                 .attr("href")
                 .replace("#top", "");
-            history.replaceState(
-                {},
+            history.replaceState({},
                 "",
                 currentHref.replace(storedHash, "") + currentHash
-                );
+            );
         });
 
         $("a[href^='#']").not("a[href='#']").click(function(event) {

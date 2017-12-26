@@ -315,10 +315,12 @@
         },
     };
 
+    let NAVBAR_MARGIN_OFFSET;
     let HEIGHT_OFFSET;
 
     $(document).ready(function() {
-        HEIGHT_OFFSET = $("body").data().offset - 10;
+        NAVBAR_MARGIN_OFFSET = parseInt($("article>*:first-child").css("margin-top"));
+        HEIGHT_OFFSET = $("body").data().offset + NAVBAR_MARGIN_OFFSET;
 
         // @todo: write-up around this answer
         // https://stackoverflow.com/a/23084780/2877698

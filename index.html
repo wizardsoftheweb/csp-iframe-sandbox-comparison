@@ -1,13 +1,14 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <title>CSP and iframe Sandboxing | wizardsoftheweb</title>
-    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css?family=Lato%7CRoboto+Mono" rel="stylesheet" />
     <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link href="//gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
     <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-S7YMK1xjUjSpEnF4P8hPUcgjXYLZKK3fQW1j5ObLSl787II9p8RO9XUGehRmKsxd" crossorigin="anonymous">
-    <style type="text/css">
+    <style>
     html,
     body {
         height: 100%;
@@ -20,10 +21,9 @@
         box-shadow: 0 10px 10px -5px rgba(55, 90, 127, 0.4);
     }
 
-    body>main {
+    body>article {
         margin-top: 70px;
     }
-
 
     body>* a>code {
         color: inherit;
@@ -41,8 +41,12 @@
         margin-bottom: 20px;
     }
 
-    main>* {
+    article>* {
         margin-bottom: 50px;
+    }
+
+    div.list-group {
+        margin-bottom: 0;
     }
 
     #embed-here iframe {
@@ -88,7 +92,7 @@
     }
 
     @media screen and (max-width: 767px) {
-        main>* {
+        article>* {
             margin-bottom: 0;
         }
 
@@ -130,9 +134,9 @@
             </div>
         </div>
     </nav>
-    <main class="container">
+    <article class="container">
         <header class="row" id="top">
-            <h1 class="col-md-12"><code>CSP</code> and <code>iframe</code> <code>sandbox</code> Comparison</a></h1>
+            <h1 class="col-md-12"><code>CSP</code> and <code>iframe</code> <code>sandbox</code> Comparison</h1>
         </header>
         <section class="row" id="privacy">
             <h2 class="col-md-12">Privacy</h2>
@@ -146,16 +150,16 @@
                 If you're cool with me (and by extension Google) tracking your usage, I really appreciate it. I'm curious about how you interact with my content and eventually want to play with the data. So you know, I'm monitoring these events:
             </p>
             <div class="col-md-12">
-                <div class="list-group" style="margin-bottom:0">
-                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#Pageview" target="_gtmhelp" class="list-group-item">Page views</a>
-                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#scroll" target="_gtmhelp" class="list-group-item">Scroll depth</a>
-                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#Click" target="_gtmhelp" class="list-group-item">Clicks on <code>.btn</code>s and <code>a</code>nchors (links)</a>
-                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#HistoryChange" target="_gtmhelp" class="list-group-item">History changes</a>
+                <div class="list-group">
+                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#Pageview" target="gtmhelp" class="list-group-item">Page views</a>
+                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#scroll" target="gtmhelp" class="list-group-item">Scroll depth</a>
+                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#Click" target="gtmhelp" class="list-group-item">Clicks on <code>.btn</code>s and <code>a</code>nchors (links)</a>
+                    <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#HistoryChange" target="gtmhelp" class="list-group-item">History changes</a>
                 </div>
             </div>
         </section>
         <section class="row" id="overview">
-            <h2 class="col-md-12">Overview</a></h2>
+            <h2 class="col-md-12">Overview</h2>
             <p class="col-md-12">
                 This page attempts to illustrate how <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox" target="_blank"><code>Content-Security-Policy</code> <code>sandbox</code> headers</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox" target="_blank"><code>iframe</code> <code>sandbox</code> attributes</a> interact. I couldn't find any practical examples and wasn't sure how this would actually turn out, so I built this. <strong>tl;dr:</strong> always set the <code>iframe</code> attribute; also set the <code>CSP</code> header when you can.
             </p>
@@ -170,8 +174,8 @@
             </p>
         </section>
         <section class="row" id="sandbox-demo">
-            <h2 class="col-md-12"><code>sandbox</code> demo</a></h2>
-            <section class="col-md-12" id="sandbox-controls">
+            <h2 class="col-md-12"><code>sandbox</code> demo</h2>
+            <div class="col-md-12" id="sandbox-controls">
                 <table class="table table-responsive">
                     <thead>
                         <tr>
@@ -217,38 +221,37 @@
                         </tr>
                     </tbody>
                 </table>
-            </section>
-            <section class="col-md-8 col-md-push-2 col-sm-12" id="embed-here">
-            </section>
+            </div>
+            <div class="col-md-8 col-md-push-2 col-sm-12" id="embed-here">
+            </div>
         </section>
         <footer class="row" id="other-stuff">
-            <h2 class="col-md-12">Other Stuff</a></h2>
+            <h2 class="col-md-12">Other Stuff</h2>
             <p class="col-md-12">
-                This demo makes use of
-                <ul>
-                    <li><a href="//jquery.com/" target="_blank">jQuery</a></li>
-                    <li><a href="//getbootstrap.com" target="_blank">Bootstrap</a></li>
-                    <li><a href="//bootswatch.com/darkly/" target="_blank">Bootswatch's Darkly</a> (with some local modifications)</li>
-                    <li><a href="//www.bootstraptoggle.com" target="_blank">Bootstrap Toggle</a></li>
-                    <li><a href="//fonts.google.com/specimen/Lato" target="_blank">Lato via Google Fonts</a></li>
-                    <li><a href="//fonts.google.com/specimen/Roboto+Mono" target="_blank"><code>Roboto Mono</code> via Google Fonts</a></li>
-                    </code>
-                    </a>
-                    </li>
-                </ul>
+                I wrote about this on my blog (jk not yet; update when I do).
             </p>
             <p class="col-md-12">
                 This page falls under <a href="//github.com/wizardsoftheweb/csp-iframe-sandbox-comparison/blob/master/LICENSE" target="_blank">the source's ISC license</a>.
             </p>
             <p class="col-md-12">
-                I wrote about this on my blog (jk not yet; update when I do).
+                This demo makes use of the following tools (plus lots of <a href="https://stackoverflow.com" target="_blank">Stack Overflow</a> and probably some stuff I forgot to explicitly mention):
             </p>
+            <div class="col-md-12">
+                <div class="list-group">
+                    <a href="//jquery.com/" target="_blank" class="list-group-item">jQuery</a>
+                    <a href="//getbootstrap.com" target="_blank" class="list-group-item">Bootstrap</a>
+                    <a href="//bootswatch.com/darkly/" target="_blank" class="list-group-item">Bootswatch's Darkly (with some local modifications)</a>
+                    <a href="//www.bootstraptoggle.com" target="_blank" class="list-group-item">Bootstrap Toggle</a>
+                    <a href="//fonts.google.com/specimen/Lato" target="_blank" class="list-group-item">Lato via Google Fonts</a>
+                    <a href="//fonts.google.com/specimen/Roboto+Mono" target="_blank" class="list-group-item"><code>Roboto Mono</code> via Google Fonts</a>
+                </div>
+            </div>
         </footer>
-    </main>
+    </article>
     <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
     <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
     <script src="//gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
-    <script type="text/javascript">
+    <script>
     const EMBED_CONTAINER = $("#embed-here");
     const SANDBOX_CONTROLS = $("#sandbox-controls");
     const OPTION_STATE = {

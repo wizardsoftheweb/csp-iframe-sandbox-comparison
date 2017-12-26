@@ -359,7 +359,7 @@
 
     function toggleToggleInteraction(toggleElement, disabled = true) {
         toggleElement.bootstrapToggle(disabled ? "disable" : "enable");
-        toggleElement.parent().find(".btn").toggleClass("opt-disabled", disabled);
+        toggleElement.parent().find(".btn").toggleClass("disabled", disabled);
     }
 
     function rebuildSingleModalState(source, scriptsDisabled = true) {

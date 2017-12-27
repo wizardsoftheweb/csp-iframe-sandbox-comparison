@@ -22,7 +22,7 @@
     }
 
     #main-nav,
-    #main-nav ul.nav > li {
+    #main-nav ul.nav>li {
         max-height: 60px;
         overflow-y: hidden;
     }
@@ -53,6 +53,12 @@
 
     article>* {
         min-height: 100vh;
+        display: flex;
+        flex-flow: column;
+    }
+
+    article>*>.scroll-spy-only {
+        flex-grow: 1;
     }
 
     div.list-group {
@@ -173,6 +179,7 @@
                         <ul class="nav navbar-nav">
                             <li class="scroll-spy-only nav-item"><a href="#top">Top</a></li>
                             <li class="nav-item"><a href="#privacy">Privacy</a></li>
+                            <li class="scroll-spy-only nav-item"><a href="#end-privacy">Privacy Padding</a></li>
                             <li class="nav-item"><a href="#overview">Overview</a></li>
                             <li class="nav-item"><a href="#sandbox-demo"><code>sandbox</code> Demo</a></li>
                             <li class="nav-item"><a href="#other-stuff">Other Stuff</a></li>
@@ -205,6 +212,7 @@
                     <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#HistoryChange" target="gtmhelp" class="list-group-item">History changes</a>
                 </div>
             </div>
+            <div class="scroll-spy-only" id="end-privacy"></div>
         </section>
         <section class="row" id="overview">
             <h2 class="col-md-12">Overview</h2>

@@ -346,25 +346,12 @@
         },
     };
     const MAIN_NAV = $("#main-nav");
-    const NAV_PRECEDENCE = [""];
     const SCROLL_SPY_SHIFT_REDUCTION = 10;
 
     let MAIN_NAV_HEIGHT_CONTRIBUTION;
     let SCROLL_SPY_SHIFT;
-    let LAST_EVENT_TIMESTAMP;
-
-    let SCHEDULED_SCROLL_PROMISE = null;
-    let ACTIVE_SCROLL_PROMISE = null;
 
     $(document).ready(function() {
-        MAIN_NAV
-            .find("li>a[href^='#']:not([href^='#end'])")
-            .each(function() {
-                let hash = $.attr(this, "href");
-                NAV_PRECEDENCE[hash] = NAV_PRECEDENCE.length;
-                NAV_PRECEDENCE.push(hash);
-            });
-
         MAIN_NAV_HEIGHT_CONTRIBUTION = Math.min(
             parseInt(MAIN_NAV.css("max-height")),
             MAIN_NAV.height()

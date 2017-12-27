@@ -384,7 +384,8 @@
             const storedNavIndex = NAV_PRECEDENCE[location.hash || ""] || 0;
             console.log("Stored", storedNavIndex, storedHash);
             const triggeredHash = $("a[href^='#']", event.target)
-                .attr("href");
+                .attr("href")
+                .replace(/#(.*?)top/, "$1");
             console.log("Triggered", triggeredHash);
             const theoreticalNavIndex = NAV_PRECEDENCE[triggeredHash.replace("end-", "")];
             const theoreticalHash = NAV_PRECEDENCE[theoreticalNavIndex];
@@ -404,7 +405,7 @@
             }
             history.replaceState({},
                 "",
-                currentHref.replace(storedHash, "") + theoreticalHash.replace("#top", "")
+                currentHref.replace(storedHash, "") + theoreticalHash
             );
         });
 

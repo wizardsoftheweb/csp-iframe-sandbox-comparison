@@ -1,11 +1,11 @@
 version: '3'
 
 services:
-  php:
-    image: 'php:7.0-cli'
-    container_name: 'csp-sandbox-example'
+  js:
+    image: 'node:8-alpine'
+    container_name: 'csp-iframe-sandbox-comparison'
     ports:
       - '9001:9001'
     volumes:
-      - './:/usr/src/csp-example'
-    command: 'php -S 0.0.0.0:9001 -t /usr/src/csp-example'
+      - './:/usr/src/app'
+    command: '/bin/sh -c "cd /usr/src/app && npm start"'

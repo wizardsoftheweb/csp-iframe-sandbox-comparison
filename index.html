@@ -382,32 +382,12 @@
         $(window).on('activate.bs.scrollspy', function(event) {
             const currentHref = location.href;
             const storedHash = location.hash;
-            const storedNavIndex = NAV_PRECEDENCE[location.hash] || 0;
-            // console.log("Stored", storedNavIndex, storedHash);
             const triggeredHash = $("a[href^='#']", event.target)
                 .attr("href")
-                .replace(/#(.*?)top/, "$1");
-            // console.log("Triggered", triggeredHash);
-            const theoreticalNavIndex = NAV_PRECEDENCE[triggeredHash.replace("end-", "")] || 0;
-            const theoreticalHash = NAV_PRECEDENCE[theoreticalNavIndex];
-            // console.log("Theoretical", theoreticalNavIndex, theoreticalHash);
-            const difference = theoreticalHash === triggeredHash;
-            if (storedNavIndex > theoreticalNavIndex) {
-                // scrolling up; need to jump to bottom of next item
-                console.log("Scrolling to ", theoreticalHash);
-                setTimeout(scheduleScroll, 0, $(theoreticalHash), false);
-            } else if (storedNavIndex === theoreticalNavIndex) {
-                // scrolling down; need to jump to next item
-                console.log("Scrolling to ", theoreticalHash + '+1');
-                setTimeout(scheduleScroll, 0, $(NAV_PRECEDENCE[theoreticalNavIndex + 1]), true);
-                console.log("down")
-            } else {
-                // we managed to scroll really fast; do nothing
-                console.log("down really fast");
-            }
+                .replace("#top", "");
             history.replaceState({},
                 "",
-                currentHref.replace(storedHash, "") + theoreticalHash
+                currentHref.replace(storedHash, "") + triggeredHash
             );
         });
 

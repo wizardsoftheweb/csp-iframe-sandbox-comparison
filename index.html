@@ -380,12 +380,30 @@
         $(window).on('activate.bs.scrollspy', function(event) {
             const currentHref = location.href;
             const storedHash = location.hash;
-            const currentHash = $("a[href^='#']", event.target)
-                .attr("href")
-                .replace("#top", "");
+            const storedNavIndex = NAV_PRECEDENCE[location.hash || ""] || 0;
+            console.log("Stored", storedNavIndex, storedHash);
+            const triggeredHash = $("a[href^='#']", event.target)
+                .attr("href");
+            console.log("Triggered", triggeredHash);
+            const theoreticalNavIndex = NAV_PRECEDENCE[triggeredHash.replace("end-", "")];
+            const theoreticalHash = NAV_PRECEDENCE[theoreticalNavIndex];
+            console.log("Theoretical", theoreticalNavIndex, theoreticalHash);
+            if (triggeredHash === theoreticalHash) {
+                // replaced a good hash with a good hash; do nothing
+            }
+            if (storedNavIndex > theoreticalNavIndex) {
+                // scrolling up; need to jump to bottom of next item
+                console.log("up");
+            } else if (storedNavIndex === theoreticalNavIndex) {
+                // scrolling down; need to jump to next item
+                console.log("down")
+            } else {
+                // we managed to scroll really fast; do nothing
+                console.log("down really fast");
+            }
             history.replaceState({},
                 "",
-                currentHref.replace(storedHash, "") + currentHash
+                currentHref.replace(storedHash, "") + theoreticalHash.replace("#top", "")
             );
         });
 

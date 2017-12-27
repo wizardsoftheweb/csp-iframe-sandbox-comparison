@@ -353,7 +353,8 @@
     let SCROLL_SPY_SHIFT;
     let LAST_EVENT_TIMESTAMP;
 
-    let ACTIVE_SCROLL_TIMER = null;
+    let SCHEDULED_SCROLL_PROMISE = null;
+    let ACTIVE_SCROLL_PROMISE = null;
 
     $(document).ready(function() {
         MAIN_NAV
@@ -382,22 +383,23 @@
             const currentHref = location.href;
             const storedHash = location.hash;
             const storedNavIndex = NAV_PRECEDENCE[location.hash] || 0;
-            console.log("Stored", storedNavIndex, storedHash);
+            // console.log("Stored", storedNavIndex, storedHash);
             const triggeredHash = $("a[href^='#']", event.target)
                 .attr("href")
                 .replace(/#(.*?)top/, "$1");
-            console.log("Triggered", triggeredHash);
+            // console.log("Triggered", triggeredHash);
             const theoreticalNavIndex = NAV_PRECEDENCE[triggeredHash.replace("end-", "")] || 0;
             const theoreticalHash = NAV_PRECEDENCE[theoreticalNavIndex];
-            console.log("Theoretical", theoreticalNavIndex, theoreticalHash);
-            if (triggeredHash === theoreticalHash) {
-                // replaced a good hash with a good hash; do nothing
-            }
+            // console.log("Theoretical", theoreticalNavIndex, theoreticalHash);
+            const difference = theoreticalHash === triggeredHash;
             if (storedNavIndex > theoreticalNavIndex) {
                 // scrolling up; need to jump to bottom of next item
-                console.log("up");
+                console.log("Scrolling to ", theoreticalHash);
+                setTimeout(scheduleScroll, 0, $(theoreticalHash), false);
             } else if (storedNavIndex === theoreticalNavIndex) {
                 // scrolling down; need to jump to next item
+                console.log("Scrolling to ", theoreticalHash + '+1');
+                setTimeout(scheduleScroll, 0, $(NAV_PRECEDENCE[theoreticalNavIndex + 1]), true);
                 console.log("down")
             } else {
                 // we managed to scroll really fast; do nothing
@@ -438,35 +440,56 @@
     });
 
     function scheduleScroll(target, scrollToTargetTop = true, scrollTime = 300) {
-        if (!ACTIVE_SCROLL_TIMER) {
-            ACTIVE_SCROLL_TIMER = setTimeout(
-                scrollToElement,
-                0,
-                target,
-                scrollToTargetTop,
-                scrollTime
-            )
+        if (!SCHEDULED_SCROLL_PROMISE) {
+            SCHEDULED_SCROLL_PROMISE = new Promise((resolve, reject) => {
+                return setTimeout(
+                    () => {
+                        scrollToElement(target, scrollToTargetTop, scrollTime)
+                            .then(resolve)
+                            .catch(reject);
+                    },
+                    Math.floor(Math.random() * 20)
+                )
+            })
+            .then(() => {
+                SCHEDULED_SCROLL_PROMISE = null;
+            });
         }
+        return SCHEDULED_SCROLL_PROMISE;
     }
 
     function scrollToElement(target, scrollToTargetTop = true, scrollTime = 300) {
-        ACTIVE_SCROLL_TIMER = true;
-        let newTop;
-        if (scrollToTargetTop) {
-            newTop = target.offset().top - SCROLL_SPY_SHIFT;
-        } else {
-            target = target.find(":nth-last-child(2)");
-            newTop = target.offset().bottom;
+        if (!ACTIVE_SCROLL_PROMISE) {
+            ACTIVE_SCROLL_PROMISE = new Promise((resolve, reject) => {
+                let newTop;
+                if (scrollToTargetTop) {
+                    newTop = target.offset().top - SCROLL_SPY_SHIFT;
+                } else {
+                    target = $(target.find(">:nth-last-child(2)")[0]);
+                    targetOffset = target.offset();
+                    newTop = targetOffset.top
+                    - SCROLL_SPY_SHIFT
+                    + target.height()
+                    - parseInt($("body>article>*:not(:last-child)>*:nth-last-child(2)").css("margin-bottom"));
+                }
+                console.log(target);
+                console.log(newTop);
+
+                $("html, body").animate({
+                        scrollTop: newTop
+                    },
+                    scrollTime,
+                    function() {
+                        target.focus();
+                        resolve();
+                    },
+                );
+            })
+            .then(() => {
+                ACTIVE_SCROLL_PROMISE = null;
+            });
         }
-        $("html, body").animate({
-                scrollTop: newTop
-            },
-            scrollTime,
-            function() {
-                target.focus();
-                ACTIVE_SCROLL_TIMER = null;
-            },
-        );
+        return ACTIVE_SCROLL_PROMISE;
     }
 
     function reloadEmbed() {

@@ -329,6 +329,7 @@
 
     let MAIN_NAV_HEIGHT_CONTRIBUTION;
     let SCROLL_SPY_SHIFT;
+    let LAST_EVENT_TIMESTAMP;
 
     $(document).ready(function() {
         MAIN_NAV_HEIGHT_CONTRIBUTION = Math.min(
@@ -341,12 +342,18 @@
             $("body").data().offset - SCROLL_SPY_SHIFT_REDUCTION,
         );
 
-
         // @todo: write-up around this answer
         // https://stackoverflow.com/a/23084780/2877698
         // https://caniuse.com/#search=replaceState
         // https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_replaceState%28%29_method
         $(window).on('activate.bs.scrollspy', function(event) {
+            let currentEventTimeStamp = event.timeStamp;
+            if (currentEventTimeStamp === LAST_EVENT_TIMESTAMP) {
+                console.log("whoops");
+            } else {
+                LAST_EVENT_TIMESTAMP = currentEventTimeStamp;
+            }
+            console.log(new Date(event.timeStamp), event.target);
             const currentHref = location.href;
             const storedHash = location.hash;
             const currentHash = $("a[href^='#']", event.target)

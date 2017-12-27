@@ -358,7 +358,9 @@
         MAIN_NAV
             .find("li>a[href^='#']:not([href^='#end'])")
             .each(function() {
-                NAV_PRECEDENCE.push($.attr(this, "href"))
+                let hash = $.attr(this, "href");
+                NAV_PRECEDENCE[hash] = NAV_PRECEDENCE.length;
+                NAV_PRECEDENCE.push(hash);
             });
 
         MAIN_NAV_HEIGHT_CONTRIBUTION = Math.min(

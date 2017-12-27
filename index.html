@@ -439,25 +439,6 @@
         });
     });
 
-    function scheduleScroll(target, scrollToTargetTop = true, scrollTime = 300) {
-        if (!SCHEDULED_SCROLL_PROMISE) {
-            SCHEDULED_SCROLL_PROMISE = new Promise((resolve, reject) => {
-                return setTimeout(
-                    () => {
-                        scrollToElement(target, scrollToTargetTop, scrollTime)
-                            .then(resolve)
-                            .catch(reject);
-                    },
-                    Math.floor(Math.random() * 20)
-                )
-            })
-            .then(() => {
-                SCHEDULED_SCROLL_PROMISE = null;
-            });
-        }
-        return SCHEDULED_SCROLL_PROMISE;
-    }
-
     function scrollToElement(target, scrollTime = 300) {
         $("html, body").animate({
                 scrollTop: newTop = target.offset().top - SCROLL_SPY_SHIFT;

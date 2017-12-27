@@ -436,18 +436,19 @@
         });
     });
 
-    function scheduleScroll(target, scrollToTargetTop = true) {
+    function scheduleScroll(target, scrollToTargetTop = true, scrollTime = 300) {
         if (!ACTIVE_SCROLL_TIMER) {
             ACTIVE_SCROLL_TIMER = setTimeout(
                 scrollToElement,
                 0,
                 target,
-                scrollToTargetTop
+                scrollToTargetTop,
+                scrollTime
             )
         }
     }
 
-    function scrollToElement(target, scrollToTargetTop = true) {
+    function scrollToElement(target, scrollToTargetTop = true, scrollTime = 300) {
         ACTIVE_SCROLL_TIMER = true;
         let newTop;
         if (scrollToTargetTop) {
@@ -459,7 +460,7 @@
         $("html, body").animate({
                 scrollTop: newTop
             },
-            300,
+            scrollTime,
             function() {
                 target.focus();
                 ACTIVE_SCROLL_TIMER = null;

@@ -455,6 +455,7 @@
     }
 
     function scrollToElement(target, scrollToTargetTop = true) {
+        ACTIVE_SCROLL_TIMER = true;
         let newTop;
         if (scrollToTargetTop) {
             newTop = target.offset().top - SCROLL_SPY_SHIFT;

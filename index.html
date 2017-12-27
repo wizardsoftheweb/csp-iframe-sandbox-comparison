@@ -324,11 +324,23 @@
             modals: $("#iframe-allow-modals"),
         },
     };
+    const MAIN_NAV = $("#main-nav");
+    const SCROLL_SPY_SHIFT_REDUCTION = 10;
 
+    let MAIN_NAV_HEIGHT_CONTRIBUTION;
     let SCROLL_SPY_SHIFT;
 
     $(document).ready(function() {
-        SCROLL_SPY_SHIFT = $("body").data().offset;
+        MAIN_NAV_HEIGHT_CONTRIBUTION = Math.min(
+            parseInt(MAIN_NAV.css("max-height")),
+            MAIN_NAV.height()
+        );
+
+        SCROLL_SPY_SHIFT = Math.max(
+            MAIN_NAV_HEIGHT_CONTRIBUTION,
+            $("body").data().offset - SCROLL_SPY_SHIFT_REDUCTION,
+        );
+
 
         // @todo: write-up around this answer
         // https://stackoverflow.com/a/23084780/2877698

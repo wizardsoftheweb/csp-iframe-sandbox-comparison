@@ -1,0 +1,10 @@
+{
+  "name": "csp-iframe-sandbox-comparison",
+  "version": "0.4.0",
+  "description": "A very simple CSP/iframe comparison",
+  "main": "app.js",
+  "repository": "git@github.com:wizardsoftheweb/csp-iframe-sandbox-comparison.git",
+  "author": "CJ Harries <cj@wizardsoftheweb.pro> (https://wizardsoftheweb.pro/)",
+  "license": "ISC",
+  "private": false
+}

@@ -443,6 +443,25 @@
         });
     });
 
+    function scrollToElement(target, scrollToTargetTop = true) {
+        let newTop;
+        if (scrollToTargetTop) {
+            newTop = target.offset().top - SCROLL_SPY_SHIFT;
+        } else {
+            target = target.find(":nth-last-child(2)");
+            newTop = target.offset().bottom;
+        }
+        $("html, body").animate({
+                scrollTop: newTop
+            },
+            300,
+            function() {
+                target.focus();
+                ACTIVE_SCROLL_TIMER = null;
+            },
+        );
+    }
+
     function reloadEmbed() {
         EMBED_CONTAINER.find("iframe").remove();
         let embed = $("<iframe />");

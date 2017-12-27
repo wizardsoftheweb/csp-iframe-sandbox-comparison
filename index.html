@@ -35,10 +35,6 @@
         margin-top: 70px;
     }
 
-    body>article>*:not(:last-child)>*:nth-last-child(2) {
-        margin-bottom: 20px;
-    }
-
     body>* a>code {
         color: inherit;
     }
@@ -53,16 +49,6 @@
 
     header {
         margin-bottom: 20px;
-    }
-
-    article>* {
-        min-height: 100vh;
-        display: flex;
-        flex-flow: column;
-    }
-
-    article>*>.scroll-spy-only {
-        flex-grow: 1;
     }
 
     div.list-group {
@@ -177,29 +163,14 @@
                     <div id="navCollapse" class="collapse navbar-collapse">
                         <ul class="nav navbar-nav">
                             <li class="scroll-spy-only nav-item"><a href="#top">Top</a>
-                                <ul class="nav navbar-nav">
-                                    <li class="scroll-spy-only nav-item"><a href="#end-top">Top Padding</a></li>
-                                </ul>
                             </li>
                             <li class="nav-item"><a href="#privacy">Privacy</a>
-                                <ul class="nav navbar-nav">
-                                    <li class="scroll-spy-only nav-item"><a href="#end-privacy">Privacy Padding</a></li>
-                                </ul>
                             </li>
                             <li class="nav-item"><a href="#overview">Overview</a>
-                                <ul class="nav navbar-nav">
-                                    <li class="scroll-spy-only nav-item"><a href="#end-overview">Overview Padding</a></li>
-                                </ul>
                             </li>
                             <li class="nav-item"><a href="#sandbox-demo"><code>sandbox</code> Demo</a>
-                                <ul class="nav navbar-nav">
-                                    <li class="scroll-spy-only nav-item"><a href="#end-sandbox-demo"><code>sandbox</code> Demo Padding</a></li>
-                                </ul>
                             </li>
                             <li class="nav-item"><a href="#other-stuff">Other Stuff</a>
-                                <ul class="nav navbar-nav">
-                                    <li class="scroll-spy-only nav-item"><a href="#end-other-stuff">Other Stuff Padding</a></li>
-                                </ul>
                             </li>
                         </ul>
                     </div>
@@ -210,7 +181,6 @@
     <article class="container">
         <header class="row" id="top">
             <h1 class="col-md-12"><code>CSP</code> and <code>iframe</code> <code>sandbox</code> Comparison</h1>
-            <div class="scroll-spy-only" id="end-top"></div>
         </header>
         <section class="row" id="privacy">
             <h2 class="col-md-12">Privacy</h2>
@@ -231,7 +201,6 @@
                     <a href="https://support.google.com/tagmanager/answer/6106961?hl=en#HistoryChange" target="gtmhelp" class="list-group-item">History changes</a>
                 </div>
             </div>
-            <div class="scroll-spy-only" id="end-privacy"></div>
         </section>
         <section class="row" id="overview">
             <h2 class="col-md-12">Overview</h2>
@@ -247,7 +216,6 @@
             <p class="col-md-12">
                 <strong>WARNING:</strong> disabling both <code>sandbox</code>es or turning on <code>allow-modals</code> triggers a vanilla <code>alert</code>. <code>alert</code>s are supremely annoying and should never be used unless you're trying to illustrate specific behavior (or you need a quick way to leave content live but make sure no one uses it more than once).
             </p>
-            <div class="scroll-spy-only" id="end-overview"></div>
         </section>
         <section class="row" id="sandbox-demo">
             <h2 class="col-md-12"><code>sandbox</code> demo</h2>
@@ -300,7 +268,6 @@
             </div>
             <div class="col-md-8 col-md-push-2 col-sm-12" id="embed-here">
             </div>
-            <div class="scroll-spy-only" id="end-sandbox-demo"></div>
         </section>
         <footer class="row" id="other-stuff">
             <h2 class="col-md-12">Other Stuff</h2>

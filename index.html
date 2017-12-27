@@ -381,13 +381,13 @@
         $(window).on('activate.bs.scrollspy', function(event) {
             const currentHref = location.href;
             const storedHash = location.hash;
-            const storedNavIndex = NAV_PRECEDENCE[location.hash || ""] || 0;
+            const storedNavIndex = NAV_PRECEDENCE[location.hash] || 0;
             console.log("Stored", storedNavIndex, storedHash);
             const triggeredHash = $("a[href^='#']", event.target)
                 .attr("href")
                 .replace(/#(.*?)top/, "$1");
             console.log("Triggered", triggeredHash);
-            const theoreticalNavIndex = NAV_PRECEDENCE[triggeredHash.replace("end-", "")];
+            const theoreticalNavIndex = NAV_PRECEDENCE[triggeredHash.replace("end-", "")] || 0;
             const theoreticalHash = NAV_PRECEDENCE[theoreticalNavIndex];
             console.log("Theoretical", theoreticalNavIndex, theoreticalHash);
             if (triggeredHash === theoreticalHash) {

@@ -375,7 +375,7 @@
 
     function scrollToElement(target, scrollTime = 300) {
         $("html, body").animate({
-                scrollTop: newTop = target.offset().top - SCROLL_SPY_SHIFT;
+                scrollTop: target.offset().top - SCROLL_SPY_SHIFT
             },
             scrollTime,
             function() {

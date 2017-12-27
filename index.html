@@ -376,13 +376,6 @@
         // https://caniuse.com/#search=replaceState
         // https://developer.mozilla.org/en-US/docs/Web/API/History_API#The_replaceState%28%29_method
         $(window).on('activate.bs.scrollspy', function(event) {
-            let currentEventTimeStamp = event.timeStamp;
-            if (currentEventTimeStamp === LAST_EVENT_TIMESTAMP) {
-                console.log("whoops");
-            } else {
-                LAST_EVENT_TIMESTAMP = currentEventTimeStamp;
-            }
-            console.log(new Date(event.timeStamp), event.target);
             const currentHref = location.href;
             const storedHash = location.hash;
             const currentHash = $("a[href^='#']", event.target)

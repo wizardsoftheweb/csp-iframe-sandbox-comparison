@@ -443,6 +443,17 @@
         });
     });
 
+    function scheduleScroll(target, scrollToTargetTop = true) {
+        if (!ACTIVE_SCROLL_TIMER) {
+            ACTIVE_SCROLL_TIMER = setTimeout(
+                scrollToElement,
+                0,
+                target,
+                scrollToTargetTop
+            )
+        }
+    }
+
     function scrollToElement(target, scrollToTargetTop = true) {
         let newTop;
         if (scrollToTargetTop) {

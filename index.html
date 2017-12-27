@@ -412,14 +412,7 @@
             const target = $($.attr(this, "href"));
             if (target) {
                 event.preventDefault();
-                $("html, body").animate({
-                        scrollTop: target.offset().top - SCROLL_SPY_SHIFT
-                    },
-                    300,
-                    function() {
-                        target.focus();
-                    },
-                );
+                scrollToElement(target);
             }
         });
 

@@ -317,12 +317,10 @@
         },
     };
 
-    let NAVBAR_MARGIN_OFFSET;
-    let HEIGHT_OFFSET;
+    let SCROLL_SPY_SHIFT;
 
     $(document).ready(function() {
-        NAVBAR_MARGIN_OFFSET = parseInt($("article>*:first-child").css("margin-top"));
-        HEIGHT_OFFSET = $("body").data().offset + NAVBAR_MARGIN_OFFSET;
+        SCROLL_SPY_SHIFT = $("body").data().offset;
 
         // @todo: write-up around this answer
         // https://stackoverflow.com/a/23084780/2877698
@@ -345,7 +343,7 @@
             if (target) {
                 event.preventDefault();
                 $("html, body").animate({
-                        scrollTop: target.offset().top - HEIGHT_OFFSET
+                        scrollTop: target.offset().top - SCROLL_SPY_SHIFT
                     },
                     300,
                     function() {

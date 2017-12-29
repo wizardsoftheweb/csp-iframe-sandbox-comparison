@@ -3,7 +3,7 @@
 
 <head>
     <!-- Google Tag Manager -->
-    <script>
+{#     <script>
     (function(w, d, s, l, i) {
         w[l] = w[l] || [];
         w[l].push({
@@ -19,7 +19,7 @@
         f.parentNode.insertBefore(j, f);
     })(window, document, 'script', 'dataLayer', 'GTM-M9D96VX');
 
-    </script>
+    </script> #}
     <!-- End Google Tag Manager -->
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -81,10 +81,8 @@
     }
 
     </script>
-    <link href="https://fonts.googleapis.com/css?family=Lato|Roboto+Mono" rel="stylesheet" />
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
-    <link href="//gitcdn.github.io/bootstrap-toggle/2.2.2/css/bootstrap-toggle.min.css" rel="stylesheet">
-    <link href="https://maxcdn.bootstrapcdn.com/bootswatch/3.3.7/darkly/bootstrap.min.css" rel="stylesheet" integrity="sha384-S7YMK1xjUjSpEnF4P8hPUcgjXYLZKK3fQW1j5ObLSl787II9p8RO9XUGehRmKsxd" crossorigin="anonymous">
+    {% include "partials/common-fonts.j2" %}
+    {% include "partials/bootstrap-styles.j2" %}
     <style>
     html,
     body {
@@ -228,11 +226,11 @@
 </head>
 
 <body data-spy="scroll" data-target="#main-nav" data-offset="60">
-    <!-- Google Tag Manager (noscript) -->
+{#     <!-- Google Tag Manager (noscript) -->
     <noscript>
         <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9D96VX" height="0" width="0" style="display:none;visibility:hidden"></iframe>
     </noscript>
-    <!-- End Google Tag Manager (noscript) -->
+    <!-- End Google Tag Manager (noscript) --> #}
     <nav id="main-nav" class="navbar navbar-default navbar-fixed-top">
         <div class="container">
             <div class="row">
@@ -387,9 +385,8 @@
             </div>
         </footer>
     </article>
-    <script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
-    <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
-    <script src="//gitcdn.github.io/bootstrap-toggle/2.2.2/js/bootstrap-toggle.min.js"></script>
+    {% include "partials/jQuery.j2" %}
+    {% include "partials/bootstrap-scripts.j2" %}
     <script>
     const EMBED_CONTAINER = $("#embed-here");
     const SANDBOX_CONTROLS = $("#sandbox-controls");

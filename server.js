@@ -31,8 +31,8 @@ function reduceToProperOptions(accumulator, currentOption) {
 }
 
 function parseSandboxRequest(req) {
-    if (req && req.param && req.param("sandbox")) {
-        return req.param("sandbox")
+    if (req && req.params && req.params("sandbox")) {
+        return req.params("sandbox")
             .split("+")
             .reduce(
                 reduceToProperOptions,

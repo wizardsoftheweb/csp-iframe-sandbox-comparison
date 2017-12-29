@@ -6,11 +6,11 @@ const STRIPPED_SANDBOX_VALUES = [
     // "same-origin",
     "scripts",
     // "popups,",
-    "modals,",
-    // "orientation-lock,",
-    // "pointer-lock,",
-    // "presentation,",
-    // "popups-to-escape-sandbox,",
+    "modals",
+    // "orientation-lock",
+    // "pointer-lock",
+    // "presentation",
+    // "popups-to-escape-sandbox",
     // "top-navigation",
 ];
 

@@ -11,9 +11,9 @@
             "name": "0 node: run single",
             "working_dir": "${project_path}",
             "cmd": ["node", "$file"],
-            "windows": {
-                "cmd": ["bash", "-c", "node $file"]
-            },
+            // "windows": {
+            //     "cmd": ["bash", "-c", "node $file"]
+            // },
             "target": "ansi_color_build",
             "syntax": "Packages/ANSIescape/ANSI.tmLanguage"
         },

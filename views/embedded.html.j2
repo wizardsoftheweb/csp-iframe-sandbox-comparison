@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    {% include "partials/common-fonts.j2" %}
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <title>CSP Embed Example | wizardsoftheweb.pro</title>
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    {% block styles %} {% endblock %}
+</head>
+
+<body>
+    <article>
+        <header>
+            <h1>CSP Embed</h1>
+            <p>This is a simple CSP embed. Loaded in a <code>sandbox</code>, this will be the only paragraph.</p>
+        </header>
+        <section id="main">
+            {% block main %} {% endblock %}
+        </section>
+        <footer>
+            {% if cspOptions.length > 0 %}
+            <h3>Enabled CSP options:</h3>
+            <ul>
+                {% for option in cspOptions %}
+                <li><code>{{ option }}</code></li>
+                {% endfor %}
+            </ul>
+            {% include "partials/jQuery.j2" %}
+            {% else %}
+            <h3>No enabled CSP options</h3>
+            {% endif %}
+        </footer>
+        {% block scripts %} {% endblock %}
+</body>
+
+</html>

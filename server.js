@@ -1,7 +1,7 @@
 const express = require("express");
 const app = express();
 
-const SANDBOX_VALUES = [
+const STRIPPED_SANDBOX_VALUES = [
     // "forms",
     // "same-origin",
     "scripts",
@@ -14,21 +14,30 @@ const SANDBOX_VALUES = [
     // "top-navigation",
 ];
 
-function isAValidOption(optionToTest) {
-    return -1 < SANDBOX_VALUES.indexOf(optionToTest.replace("allow-", ""));
+function cleanSandboxOption(optionToClean) {
+    return optionToClean.replace("allow-", "");
+}
+
+function isAValidStrippedOption(strippedOptionToTest) {
+    return -1 < STRIPPED_SANDBOX_VALUES.indexOf(strippedOptionToTest);
+}
+
+function reduceToProperOptions(accumulator, currentOption) {
+    let strippedCurrentOption = cleanSandboxOption(currentOption);
+    if (isAValidStrippedOption(strippedCurrentOption)) {
+        accumulator.push(`allow-${strippedCurrentOption}`);
+    }
+    return accumulator;
 }
 
 function parseSandboxRequest(req) {
     if (req && req.param && req.param("sandbox")) {
-        return ["sandbox"].concat(
-            req.param("sandbox")
-                .split("+")
-                .map((possibleValue) => {
-                    if (isAValidOption(possibleValue)) {
-                        return `allow-${possibleValue}`;
-                    }
-                })
-        );
+        return req.param("sandbox")
+            .split("+")
+            .reduce(
+                reduceToProperOptions,
+                ["sandbox"]
+            );
     }
     return [];
 }

@@ -34,7 +34,6 @@ function reduceToProperOptions(accumulator, currentOption) {
 
 function parseSandboxRequest(req) {
     if (req && req.query && req.query.sandbox) {
-        console.log(req.query.sandbox);
         return (req.query.sandbox || "")
             .split(/[+ ]/)
             .reduce(

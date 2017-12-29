@@ -1,4 +1,6 @@
 const express = require("express");
+const nunjucks = require("nunjucks");
+
 const app = express();
 
 const STRIPPED_SANDBOX_VALUES = [
@@ -45,16 +47,28 @@ function parseSandboxRequest(req) {
 
 function buildCspResFromReq(req, res, next) {
     let cspOptions = parseSandboxRequest(req);
-    if (cspOptions) {
+    res.cspOptions = cspOptions || [];
+    if (res.cspOptions.length > 0) {
         res.set("Content-Security-Policy", cspOptions.join(" "));
     }
     next();
 }
 
+nunjucks.configure("views", {
+    autoescape: true,
+    express: app,
+    noCache: true,
+    watch: true
+});
+
 app.all("*", buildCspResFromReq);
 
 app.get("/", (req, res) => {
     res.send("Hello World!");
+});
+
+app.get("/modals", (req, res) => {
+    res.render("modals.html.j2", {cspOptions: res.cspOptions});
 });
 
 app.listen(9001, () => {

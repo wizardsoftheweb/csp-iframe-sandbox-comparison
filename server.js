@@ -50,6 +50,8 @@ function buildCspResFromReq(req, res, next) {
     next();
 }
 
+app.all("*", buildCspResFromReq);
+
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });

@@ -14,6 +14,10 @@ const SANDBOX_VALUES = [
     // "top-navigation",
 ];
 
+function isAValidOption(optionToTest) {
+    return -1 < SANDBOX_VALUES.indexOf(optionToTest.replace("allow-", ""));
+}
+
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });

@@ -42,6 +42,14 @@ function parseSandboxRequest(req) {
     return [];
 }
 
+function buildCspResFromReq(req, res, next) {
+    let cspOptions = parseSandboxRequest(req);
+    if (cspOptions) {
+        res.set("Content-Security-Policy", cspOptions.join(" "));
+    }
+    next();
+}
+
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });

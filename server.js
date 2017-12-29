@@ -18,6 +18,21 @@ function isAValidOption(optionToTest) {
     return -1 < SANDBOX_VALUES.indexOf(optionToTest.replace("allow-", ""));
 }
 
+function parseSandboxRequest(req) {
+    if (req && req.param && req.param("sandbox")) {
+        return ["sandbox"].concat(
+            req.param("sandbox")
+                .split("+")
+                .map((possibleValue) => {
+                    if (isAValidOption(possibleValue)) {
+                        return `allow-${possibleValue}`;
+                    }
+                })
+        );
+    }
+    return [];
+}
+
 app.get("/", (req, res) => {
     res.send("Hello World!");
 });

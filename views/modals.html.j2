@@ -1,0 +1,11 @@
+{% extends "scripts.html.j2" %}
+{% block main_with_javascript %}
+<p>This embed pops an alert when <code>allow-modals</code> is set.</p>
+{% endblock %}
+{% block scripts_with_javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        alert("Embedded modal alert");
+    });
+</script>
+{% endblock %}

@@ -138,7 +138,6 @@
 
     #embed-here iframe {
         width: 100%;
-        padding: 5px 15px;
         background-color: white;
         border: 3px solid black;
         min-height: 150px;
@@ -483,18 +482,15 @@
     function reloadEmbed() {
         EMBED_CONTAINER.find("iframe").remove();
         let embed = $("<iframe />");
-        let source = "embed-me.php";
+        let source = "modals";
         let cspSandboxed = OPTION_STATE.csp.sandbox.is(":checked");
         if (cspSandboxed) {
-            source += "?sandbox="
+            source += "?sandbox=on";
             if (OPTION_STATE.csp.scripts.is(":checked")) {
-                if (OPTION_STATE.csp.modals.is(":checked")) {
-                    source += "modals";
-                } else {
-                    source += "scripts";
-                }
-            } else {
-                source += "on";
+                source += "+scripts";
+            }
+            if (OPTION_STATE.csp.modals.is(":checked")) {
+                source += "+modals";
             }
         }
         embed.attr("src", source);

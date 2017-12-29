@@ -7,7 +7,7 @@ The purpose of this repo was to quickly test how CSP and `iframe`s interact. I w
 - [Conclusions](#conclusions)
 - [Background](#background)
 - [Usage](#usage)
-    - [With PHP](#withphp)
+    - [With JavaScript](#withjavascript)
     - [With Docker](#withdocker)
 
 <!-- /MarkdownTOC -->
@@ -30,18 +30,32 @@ The CSP header sets a baseline for allowed `sandbox` options. The `iframe` attri
 ## Usage
 
 ```sh-session
-$ git clone <repo>
-$ cd csp-sandbox-example
+$ git clone https://github.com/wizardsoftheweb/csp-iframe-sandbox-comparison
+Cloning into 'csp-iframe-sandbox-comparison'...
+remote: Counting objects: 303, done.
+remote: Compressing objects: 100% (126/126), done.
+remote: Total 303 (delta 188), reused 290 (delta 176), pack-reused 0
+Receiving objects: 100% (303/303), 44.84 KiB | 0 bytes/s, done.
+Resolving deltas: 100% (188/188), done.
+Checking connectivity... done.
+$ cd csp-iframe-sandbox-comparison
+$ yarn install
+yarn install v1.3.2
+[1/4] Resolving packages...
+[2/4] Fetching packages...
+[3/4] Linking dependencies...
+[4/4] Building fresh packages...
+Done in 27.43s.
 ```
 
-### With PHP
+### With JavaScript
 
 ```sh-session
-$ php -S 0.0.0.0:9001 -t .
-PHP 7.0.22-0ubuntu0.16.04.1 Development Server started at Sun Dec 24 11:21:30 2017
-Listening on http://0.0.0.0:9001
-Document root is /path/to/csp-sandbox-example
-Press Ctrl-C to quit.
+$ npm start
+> csp-iframe-sandbox-comparison@0.4.0 start /mnt/c/Users/thecj/Code/@wizardsoftheweb/csp-sandbox-example
+> node server.js
+
+Example app listening on port 9001!
 ```
 
 ### With Docker
@@ -49,19 +63,19 @@ Press Ctrl-C to quit.
 ```sh-session
 $ docker-compose up [-d]
 Creating network "cspsandboxexample_default" with the default driver
-Pulling php (php:7.0-cli)...
-7.0-cli: Pulling from library/php
-f49cf87b52c1: Pull complete
-185616061386: Pull complete
-4330d62fa9e0: Pull complete
-457292eacdcc: Pull complete
-f9ccca1b837e: Pull complete
-af8f0a0a4cca: Pull complete
-27d70e5a324f: Pull complete
-456cff3934fb: Pull complete
-Digest: sha256:5c0e0d94d39dd4ddaf1e6b3602a205db0522f64a4aab03aad8321790a5649772
-Status: Downloaded newer image for php:7.0-cli
-Creating csp-sandbox-example ...
-Creating csp-sandbox-example ... done
-Attaching to csp-sandbox-example
+Pulling js (node:8-alpine)...
+8-alpine: Pulling from library/node
+1160f4abea84: Pull complete
+66ff3f133e43: Pull complete
+4c8ff6f0a4db: Pull complete
+Digest: sha256:40201c973cf40708f06205b22067f952dd46a29cecb7a74b873ce303ad0d11a5
+Status: Downloaded newer image for node:8-alpine
+Creating csp-iframe-sandbox-comparison ...
+Creating csp-iframe-sandbox-comparison ... done
+Attaching to csp-iframe-sandbox-comparison
+csp-iframe-sandbox-comparison |
+csp-iframe-sandbox-comparison | > csp-iframe-sandbox-comparison@0.4.0 start /usr/src/app
+csp-iframe-sandbox-comparison | > node server.js
+csp-iframe-sandbox-comparison |
+csp-iframe-sandbox-comparison | Example app listening on port 9001!
 ```

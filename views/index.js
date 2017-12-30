@@ -60,30 +60,27 @@ $(document).ready(function() {
         reloadEmbed();
     });
 
-    rebuildAllControlStates();
-
     reloadEmbed();
 
     SANDBOX_CONTROLS.find("td > button.btn.btn-primary").click(function() {
         let owningRow = $(this).closest("tr");
-        owningRow.find("input[id$='sandbox']")
-            .prop("checked", true);
-        owningRow.find("input[type='checkbox']").not("input[id$='sandbox']").each(function() {
+        owningRow.find(".sandbox-property.on input[type='checkbox']").each(function() {
             $(this).prop("checked", false);
-        });
-        owningRow.find("input[type='checkbox']").each(function() {
             updateToggleState($(this));
         });
+        owningRow.find("input[id$='sandbox']")
+            .each(function() {
+                $(this).prop("checked", true);
+                updateToggleState($(this));
+            });
         reloadEmbed();
     });
-});
 
-function enableControls() {
     SANDBOX_CONTROLS.find("input[type='checkbox']").change(function() {
         updateToggleState($(this));
         reloadEmbed();
     });
-}
+});
 
 function scrollToElement(target, scrollTime = 300) {
     $("html, body").animate({
@@ -97,37 +94,28 @@ function scrollToElement(target, scrollTime = 300) {
 }
 
 function reloadEmbed() {
+    let cspSandboxed = OPTION_STATE.csp.sandbox.is(":checked");
+    let iframeSandboxed = OPTION_STATE.iframe.sandbox.is(":checked");
     EMBED_CONTAINER.find("iframe").remove();
     let embed = $("<iframe />");
-    let source = $("#v-pills-tab .active").data().view;
-    let cspSandboxed = OPTION_STATE.csp.sandbox.is(":checked");
+    let source = "/embedded/" + $("#v-pills-tab .active").data().view;
     if (cspSandboxed) {
-        source += "?sandbox=on";
-        CSP_CONTROLS.find(".generated input").each(function() {
-            if ($(this).is(":checked")) {
-                source += `+${$(this).data().controls}`;
-            }
+        source += "/sandbox";
+        CSP_CONTROLS.find(".sandbox-property.on input[type='checkbox']:checked").each(function() {
+            source += `/${$(this).data().controls}`;
         });
     }
+    source += `/x${Math.floor(Math.random() * 10000)}`;
     embed.attr("src", source);
-    let iframeSandboxed = OPTION_STATE.iframe.sandbox.is(":checked");
     if (iframeSandboxed) {
         let options = [];
-        IFRAME_CONTROLS.find(".generated input").each(function() {
-            if ($(this).is(":checked")) {
-                options.push(`allow-${$(this).data().controls}`);
-            }
+        IFRAME_CONTROLS.find(".sandbox-property.on input[type='checkbox']:checked").each(function() {
+            options.push(`allow-${$(this).data().controls}`);
         });
-        if (options) {
-            embed.attr("sandbox", options.join(" "));
-        }
+        embed.attr("sandbox", options.join(" "));
     }
     EMBED_CONTAINER.append(embed);
     rebuildAllControlStates(cspSandboxed, iframeSandboxed);
-    SANDBOX_CONTROLS.find("input[type='checkbox']").change(function() {
-        updateToggleState($(this));
-        reloadEmbed();
-    });
 }
 
 function rebuildAllControlStates(cspSandboxed = true, iframeSandboxed = true) {
@@ -138,8 +126,8 @@ function rebuildAllControlStates(cspSandboxed = true, iframeSandboxed = true) {
 function rebuildSingleControlState(source, sandboxed = true) {
     OPTION_STATE[source].controls.toggleClass("bg-secondary", !sandboxed);
     OPTION_STATE[source].controls.find("th, td:not(.always-enabled) .btn").toggleClass("disabled", !sandboxed);
-    $(OPTION_STATE[source].controls).find("input[type='checkbox']").each(function() {
-        updateToggleState($(this));
+    $(OPTION_STATE[source].controls).find(".sandbox-property.on input[type='checkbox']").each(function() {
+        toggleInteraction($(this), !sandboxed);
     });
     if (sandboxed) {
         OPTION_STATE[source].controls.tooltip("dispose");
@@ -192,30 +180,24 @@ function updateToggleState(target) {
 }
 
 function clearControls() {
-    SANDBOX_CONTROLS.find(".generated").remove();
+    SANDBOX_CONTROLS
+        .find(".sandbox-property")
+        .addClass("off")
+        .removeClass("on");
+    SANDBOX_CONTROLS.find(".sandbox-property input[type='checkbox']").prop("checked", false);
 }
 
 function generateControls() {
     clearControls();
     const addedProps = $("#v-pills-tab .active").data().props || [];
     for (const prop of addedProps) {
-        enableHeader(prop);
-        enableToggle(prop);
+        SANDBOX_CONTROLS
+            .find(`.sandbox-allow-${prop}`)
+            .removeClass("off")
+            .addClass("on")
+            .find("input[type='checkbox']")
+            .each(function() {
+                updateToggleState($(this));
+            });
     }
-}
-
-function enableHeader(prop) {
-    const controlHeader = $($("#control-header").html());
-    controlHeader.find("code").text(`allow-${prop}`);
-    controlHeader.insertBefore(CONTROL_HEADER.find(".reset"));
-}
-
-function enableToggle(prop) {
-    const control = $($("#control-cell").html());
-    const cspControl = control.clone();
-    cspControl.find("input").data("controls", prop);
-    cspControl.insertBefore(CSP_CONTROLS.find(".reset"));
-    const iframeControl = control.clone();
-    iframeControl.find("input").data("controls", prop);
-    iframeControl.insertBefore(IFRAME_CONTROLS.find(".reset"));
 }

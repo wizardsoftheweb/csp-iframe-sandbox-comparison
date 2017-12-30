@@ -1,12 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit } from "@angular/core";
 
+import { ScrollSpyService } from "../scroll-spy.service";
 import { TrackedAnchorDirective } from "../tracked-anchor.directive";
-import { ScrollSpyService } from '../scroll-spy.service';
 
 @Component({
-  selector: 'runner-navbar',
-  templateUrl: './navbar.component.html',
-  styleUrls: ['./navbar.component.css']
+  selector: "runner-navbar",
+  templateUrl: "./navbar.component.html",
+  styleUrls: ["./navbar.component.css"],
 })
 export class NavbarComponent implements OnInit {
 
@@ -24,7 +24,7 @@ export class NavbarComponent implements OnInit {
         console.log(event);
     }
 
-  ngOnInit() {
+  public ngOnInit() {
       this.scrollSub = this.scrollSpyService.position$
       .subscribe((value) => {
           console.log(this.currentPosition, this.originalPosition);
@@ -32,7 +32,7 @@ export class NavbarComponent implements OnInit {
       });
   }
 
-  updatePosition(position) {
+  public updatePosition(position) {
       this.originalPosition = position;
   }
 

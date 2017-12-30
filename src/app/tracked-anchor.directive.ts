@@ -1,9 +1,9 @@
-import { Output, Attribute, Directive, ViewChild, ElementRef, AfterViewInit, EventEmitter } from '@angular/core';
+import { AfterViewInit, Attribute, Directive, ElementRef, EventEmitter, Output, ViewChild } from "@angular/core";
 
-import { ScrollSpyService } from './scroll-spy.service';
+import { ScrollSpyService } from "./scroll-spy.service";
 
 @Directive({
-    selector: '[runnerTrackedAnchor]'
+    selector: "[runnerTrackedAnchor]",
 })
 export class TrackedAnchorDirective implements AfterViewInit {
 
@@ -13,15 +13,15 @@ export class TrackedAnchorDirective implements AfterViewInit {
     private selfRef;
 
     constructor(
-        @Attribute('id') elementId,
+        @Attribute("id") elementId,
         elem: ElementRef,
-        private scrollSpyService: ScrollSpyService
+        private scrollSpyService: ScrollSpyService,
     ) {
         this.elementId = elementId;
         this.selfRef = elem;
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         this.scrollSpyService.registerElement(this.elementId, this.selfRef);
         this.pagePosition.emit(this.selfRef.nativeElement.offsetTop);
     }

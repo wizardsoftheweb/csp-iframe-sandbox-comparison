@@ -1,31 +1,33 @@
-import { Attribute, Directive, ViewChild, EventEmitter, Input, ElementRef, AfterViewInit, Output, OnDestroy } from '@angular/core';
+import { AfterViewInit, Attribute, Directive, ElementRef, EventEmitter, Input, OnDestroy, Output, ViewChild } from "@angular/core";
 
-import { ScrollSpyService } from './scroll-spy.service';
+import { ScrollSpyService } from "./scroll-spy.service";
 
 @Directive({
-    selector: '[runnerWatchesAnchor]',
+    selector: "[runnerWatchesAnchor]",
 })
 export class WatchesAnchorDirective implements AfterViewInit, OnDestroy {
 
     @Output() active: EventEmitter<boolean> = new EventEmitter<boolean>();
 
+    public isActive = false;
+
     private elementId;
     private selfRef;
     private anchorSubscription;
-    public isActive = false;
+
 
     constructor(
-        @Attribute('href') elementId,
+        @Attribute("href") elementId,
         elem: ElementRef,
-        private scrollSpyService: ScrollSpyService
+        private scrollSpyService: ScrollSpyService,
     ) {
         this.elementId = elementId;
         this.selfRef = elem;
     }
 
-    ngAfterViewInit() {
+    public ngAfterViewInit() {
         this.elementId = this.selfRef.nativeElement.hash;
-               this.anchorSubscription = this.scrollSpyService.active$
+        this.anchorSubscription = this.scrollSpyService.active$
             .subscribe((value) => {
                 this.isActive = this.elementId === value;
                 this.active.emit(this.isActive);
@@ -34,7 +36,7 @@ export class WatchesAnchorDirective implements AfterViewInit, OnDestroy {
 
 
 
-    ngOnDestroy() {
+    public ngOnDestroy() {
         this.anchorSubscription.unsubscribe();
     }
 

@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { NavanchorComponent } from './navanchor.component';
+import { NavanchorComponent } from "./navanchor.component";
 
-describe('NavanchorComponent', () => {
+describe("NavanchorComponent", () => {
   let component: NavanchorComponent;
   let fixture: ComponentFixture<NavanchorComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ NavanchorComponent ]
+      declarations: [ NavanchorComponent ],
     })
     .compileComponents();
   }));
@@ -19,7 +19,7 @@ describe('NavanchorComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

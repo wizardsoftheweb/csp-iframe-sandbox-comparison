@@ -1,15 +1,15 @@
-import { TestBed, inject } from '@angular/core/testing';
+import { inject, TestBed } from "@angular/core/testing";
 
-import { ScrollSpyService } from './scroll-spy.service';
+import { ScrollSpyService } from "./scroll-spy.service";
 
-describe('ScrollspyService', () => {
+describe("ScrollspyService", () => {
   beforeEach(() => {
     TestBed.configureTestingModule({
-        providers: [ScrollSpyService]
+        providers: [ScrollSpyService],
     });
   });
 
-    it('should be created', inject([ScrollSpyService], (service: ScrollspyService) => {
+  it("should be created", inject([ScrollSpyService], (service: ScrollspyService) => {
     expect(service).toBeTruthy();
   }));
 });

@@ -1,14 +1,14 @@
-import { BrowserModule } from '@angular/platform-browser';
-import { NgModule } from '@angular/core';
+import { NgModule } from "@angular/core";
+import { BrowserModule } from "@angular/platform-browser";
 
 
-import { AppComponent } from './app.component';
-import { LeadComponent } from './lead/lead.component';
-import { NavbarComponent } from './navbar/navbar.component';
-import { ScrollSpyService } from './scroll-spy.service';
-import { TrackedAnchorDirective } from './tracked-anchor.directive';
-import { WatchesAnchorDirective } from './watches-anchor.directive';
-import { NavanchorComponent } from './navanchor/navanchor.component';
+import { AppComponent } from "./app.component";
+import { LeadComponent } from "./lead/lead.component";
+import { NavanchorComponent } from "./navanchor/navanchor.component";
+import { NavbarComponent } from "./navbar/navbar.component";
+import { ScrollSpyService } from "./scroll-spy.service";
+import { TrackedAnchorDirective } from "./tracked-anchor.directive";
+import { WatchesAnchorDirective } from "./watches-anchor.directive";
 
 
 @NgModule({
@@ -18,12 +18,12 @@ import { NavanchorComponent } from './navanchor/navanchor.component';
     NavbarComponent,
     TrackedAnchorDirective,
     WatchesAnchorDirective,
-    NavanchorComponent
+    NavanchorComponent,
   ],
   imports: [
-    BrowserModule
+    BrowserModule,
   ],
     providers: [ScrollSpyService],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
 })
 export class AppModule { }

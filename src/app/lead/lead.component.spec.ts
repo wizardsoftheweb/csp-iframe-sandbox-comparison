@@ -1,14 +1,14 @@
-import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { async, ComponentFixture, TestBed } from "@angular/core/testing";
 
-import { LeadComponent } from './lead.component';
+import { LeadComponent } from "./lead.component";
 
-describe('LeadComponent', () => {
+describe("LeadComponent", () => {
   let component: LeadComponent;
   let fixture: ComponentFixture<LeadComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ LeadComponent ]
+      declarations: [ LeadComponent ],
     })
     .compileComponents();
   }));
@@ -19,7 +19,7 @@ describe('LeadComponent', () => {
     fixture.detectChanges();
   });
 
-  it('should create', () => {
+  it("should create", () => {
     expect(component).toBeTruthy();
   });
 });

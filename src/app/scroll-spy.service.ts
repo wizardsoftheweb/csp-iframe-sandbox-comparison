@@ -1,16 +1,16 @@
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs/Observable';
-import 'rxjs/add/observable/fromEvent';
-import 'rxjs/add/operator/map';
-import 'rxjs/add/operator/distinctUntilChanged';
-import { BehaviorSubject } from 'rxjs/BehaviorSubject';
+import { Injectable } from "@angular/core";
+import "rxjs/add/observable/fromEvent";
+import "rxjs/add/operator/distinctUntilChanged";
+import "rxjs/add/operator/map";
+import { BehaviorSubject } from "rxjs/BehaviorSubject";
+import { Observable } from "rxjs/Observable";
 
 @Injectable()
 export class ScrollSpyService {
-    height$: Observable<number>;
-    position$: Observable<number>;
-    active$: Observable<string>;
-    trackedElements: any[] = [];
+    public height$: Observable<number>;
+    public position$: Observable<number>;
+    public active$: Observable<string>;
+    public trackedElements: any[] = [];
 
     constructor() {
         const windowPosition$ = new BehaviorSubject(getWindowPosition());
@@ -27,7 +27,7 @@ export class ScrollSpyService {
             .asObservable()
             .distinctUntilChanged();
 
-        Observable.fromEvent(window, 'scroll')
+        Observable.fromEvent(window, "scroll")
             .map(getWindowPosition)
             .subscribe((value) => {
                 windowPosition$.next(value);
@@ -43,16 +43,16 @@ export class ScrollSpyService {
         this.addTrackedElement(
             elementId,
             elementRef.nativeElement.offsetTop,
-            elementRef
+            elementRef,
         );
     }
 
     public addTrackedElement(id, height, ref) {
         if (id) {
             this.trackedElements.push({
-                height: height,
-                id: `#${id.replace(/^#/,"")}`,
-                ref: ref
+                height,
+                id: `#${id.replace(/^#/, "")}`,
+                ref,
             });
             this.trackedElements.sort(compareElements);
             this.determineActiveId();

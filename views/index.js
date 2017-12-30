@@ -1,17 +1,16 @@
 const EMBED_CONTAINER = $("#embed-here");
 const SANDBOX_CONTROLS = $("#sandbox-controls");
+const CONTROL_HEADER = $("#sandbox-controls-header");
+const CSP_CONTROLS = $("#csp-controls");
+const IFRAME_CONTROLS = $("#iframe-controls");
 const OPTION_STATE = {
     csp: {
         controls: $("#csp-controls"),
         sandbox: $("#csp-sandbox"),
-        scripts: $("#csp-allow-scripts"),
-        modals: $("#csp-allow-modals"),
     },
     iframe: {
         controls: $("#iframe-controls"),
         sandbox: $("#iframe-sandbox"),
-        scripts: $("#iframe-allow-scripts"),
-        modals: $("#iframe-allow-modals"),
     },
 };
 const MAIN_NAV = $("#main-nav");
@@ -53,20 +52,23 @@ $(document).ready(function() {
         }
     });
 
+    $("#v-pills-tab a").click(function(event) {
+        event.preventDefault();
+        $("#v-pills-tab .active").removeClass("active");
+        $(this).addClass("active");
+        generateControls();
+        reloadEmbed();
+    });
+
     rebuildAllControlStates();
 
     reloadEmbed();
-
-    SANDBOX_CONTROLS.find("input[type='checkbox']").change(function() {
-        updateToggleState($(this));
-        reloadEmbed();
-    });
 
     SANDBOX_CONTROLS.find("td > button.btn.btn-primary").click(function() {
         let owningRow = $(this).closest("tr");
         owningRow.find("input[id$='sandbox']")
             .prop("checked", true);
-        owningRow.find("input[id*='-allow-']").each(function() {
+        owningRow.find("input[type='checkbox']").not("input[id$='sandbox']").each(function() {
             $(this).prop("checked", false);
         });
         owningRow.find("input[type='checkbox']").each(function() {
@@ -75,6 +77,13 @@ $(document).ready(function() {
         reloadEmbed();
     });
 });
+
+function enableControls() {
+    SANDBOX_CONTROLS.find("input[type='checkbox']").change(function() {
+        updateToggleState($(this));
+        reloadEmbed();
+    });
+}
 
 function scrollToElement(target, scrollTime = 300) {
     $("html, body").animate({
@@ -90,33 +99,35 @@ function scrollToElement(target, scrollTime = 300) {
 function reloadEmbed() {
     EMBED_CONTAINER.find("iframe").remove();
     let embed = $("<iframe />");
-    let source = "modals";
+    let source = $("#v-pills-tab .active").data().view;
     let cspSandboxed = OPTION_STATE.csp.sandbox.is(":checked");
     if (cspSandboxed) {
         source += "?sandbox=on";
-        if (OPTION_STATE.csp.scripts.is(":checked")) {
-            source += "+scripts";
-        }
-        if (OPTION_STATE.csp.modals.is(":checked")) {
-            source += "+modals";
-        }
+        CSP_CONTROLS.find(".generated input").each(function() {
+            if ($(this).is(":checked")) {
+                source += `+${$(this).data().controls}`;
+            }
+        });
     }
     embed.attr("src", source);
     let iframeSandboxed = OPTION_STATE.iframe.sandbox.is(":checked");
     if (iframeSandboxed) {
         let options = [];
-        if (OPTION_STATE.iframe.scripts.is(":checked")) {
-            options.push("allow-scripts");
-            if (OPTION_STATE.iframe.modals.is(":checked")) {
-                options.push("allow-modals");
+        IFRAME_CONTROLS.find(".generated input").each(function() {
+            if ($(this).is(":checked")) {
+                options.push(`allow-${$(this).data().controls}`);
             }
-        }
+        });
         if (options) {
             embed.attr("sandbox", options.join(" "));
         }
     }
     EMBED_CONTAINER.append(embed);
     rebuildAllControlStates(cspSandboxed, iframeSandboxed);
+    SANDBOX_CONTROLS.find("input[type='checkbox']").change(function() {
+        updateToggleState($(this));
+        reloadEmbed();
+    });
 }
 
 function rebuildAllControlStates(cspSandboxed = true, iframeSandboxed = true) {
@@ -127,8 +138,9 @@ function rebuildAllControlStates(cspSandboxed = true, iframeSandboxed = true) {
 function rebuildSingleControlState(source, sandboxed = true) {
     OPTION_STATE[source].controls.toggleClass("bg-secondary", !sandboxed);
     OPTION_STATE[source].controls.find("th, td:not(.always-enabled) .btn").toggleClass("disabled", !sandboxed);
-    toggleInteraction(OPTION_STATE[source].scripts, !sandboxed);
-    rebuildSingleModalState(source, !sandboxed || !OPTION_STATE[source].scripts.is(":checked"));
+    $(OPTION_STATE[source].controls).find("input[type='checkbox']").each(function() {
+        updateToggleState($(this));
+    });
     if (sandboxed) {
         OPTION_STATE[source].controls.tooltip("dispose");
     } else {
@@ -170,19 +182,6 @@ function toggleInteraction(control, disabled = true) {
     }
 }
 
-function rebuildSingleModalState(source, scriptsDisabled = true) {
-    toggleInteraction(OPTION_STATE[source].modals, scriptsDisabled);
-    OPTION_STATE[source].modals.closest("td")
-        .tooltip(
-            scriptsDisabled ? {
-                title: "<code>allow-scripts</code> must be enabled",
-                html: true,
-                container: "#sandbox-controls",
-            } :
-                "dispose"
-        );
-}
-
 function updateToggleState(target) {
     const active = target.is(":checked");
     const label = target.closest("label");
@@ -190,4 +189,33 @@ function updateToggleState(target) {
     label.toggleClass("btn-success", active);
     label.toggleClass("btn-danger", !active);
     label.find(".toggle-state-desc").text(active ? "On" : "Off");
+}
+
+function clearControls() {
+    SANDBOX_CONTROLS.find(".generated").remove();
+}
+
+function generateControls() {
+    clearControls();
+    const addedProps = $("#v-pills-tab .active").data().props || [];
+    for (const prop of addedProps) {
+        enableHeader(prop);
+        enableToggle(prop);
+    }
+}
+
+function enableHeader(prop) {
+    const controlHeader = $($("#control-header").html());
+    controlHeader.find("code").text(`allow-${prop}`);
+    controlHeader.insertBefore(CONTROL_HEADER.find(".reset"));
+}
+
+function enableToggle(prop) {
+    const control = $($("#control-cell").html());
+    const cspControl = control.clone();
+    cspControl.find("input").data("controls", prop);
+    cspControl.insertBefore(CSP_CONTROLS.find(".reset"));
+    const iframeControl = control.clone();
+    iframeControl.find("input").data("controls", prop);
+    iframeControl.insertBefore(IFRAME_CONTROLS.find(".reset"));
 }

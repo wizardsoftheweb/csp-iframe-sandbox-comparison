@@ -4,16 +4,16 @@ const nunjucks = require("nunjucks");
 const app = express();
 
 const STRIPPED_SANDBOX_VALUES = [
-    // "forms",
-    // "same-origin",
+    "forms",
+    "same-origin",
     "scripts",
-    // "popups,",
+    "popups",
     "modals",
-    // "orientation-lock",
-    // "pointer-lock",
-    // "presentation",
-    // "popups-to-escape-sandbox",
-    // "top-navigation",
+    "orientation-lock",
+    "pointer-lock",
+    "presentation",
+    "popups-to-escape-sandbox",
+    "top-navigation",
 ];
 
 function cleanSandboxOption(optionToClean) {
@@ -66,10 +66,22 @@ app.get("/", (req, res) => {
     res.render("index.html.j2");
 });
 
-app.get("/modals", (req, res) => {
-    res.render("modals.html.j2", {cspOptions: res.cspOptions});
+app.get("/embedded", (req, res) => {
+    res.render("embedded.html.j2", {cspOptions: res.cspOptions});
 });
 
-app.listen(9001, () => {
-    console.log("Example app listening on port 9001!");
+app.get("/:optionDemo", (req, res) => {
+    if (isAValidStrippedOption(req.params.optionDemo)) {
+        res.render(`${req.params.optionDemo}.html.j2`, {cspOptions: res.cspOptions});
+    } else {
+        res.status(404).send("Route not defined");
+    }
+});
+
+app.listen(9001, "127.0.0.200", () => {
+    console.log("Example app listening on port 127.0.0.200:9001!");
+});
+
+app.listen(9001, "127.0.0.201", () => {
+    console.log("Example app listening on port 127.0.0.201:9001!");
 });

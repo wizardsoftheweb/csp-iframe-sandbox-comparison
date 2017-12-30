@@ -1,111 +1,41 @@
-const bodyParser = require("body-parser");
+// Get dependencies
 const express = require("express");
-const fs = require("fs");
-const nunjucks = require("nunjucks");
 const path = require("path");
+const http = require("http");
+const bodyParser = require("body-parser");
+
+// Get our API routes
+const api = require("./server/routes/api");
 
 const app = express();
-app.use(bodyParser.json({type: ["application/json", "application/csp-report"]}));
 
-const STRIPPED_SANDBOX_VALUES = [
-    "forms",
-    "same-origin",
-    "scripts",
-    "popups",
-    "modals",
-    "orientation-lock",
-    "pointer-lock",
-    "presentation",
-    "popups-to-escape-sandbox",
-    "top-navigation",
-];
+// Parsers for POST data
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({ extended: false }));
 
-function cleanSandboxOption(optionToClean) {
-    return optionToClean.replace("allow-", "");
-}
+// Point static path to dist
+app.use(express.static(path.join(__dirname, "dist")));
 
-function isAValidStrippedOption(strippedOptionToTest) {
-    return -1 < STRIPPED_SANDBOX_VALUES.indexOf(strippedOptionToTest);
-}
+// Set our api routes
+app.use("/api", api);
 
-function reduceToProperOptions(accumulator, currentOption) {
-    let strippedCurrentOption = cleanSandboxOption(currentOption);
-    if (isAValidStrippedOption(strippedCurrentOption)) {
-        accumulator.push(`allow-${strippedCurrentOption}`);
-    }
-    return accumulator;
-}
-
-function parseSandboxRequest(options) {
-    return ["sandbox"].concat(
-        options
-            .reduce(
-                reduceToProperOptions,
-                []
-            )
-    );
-}
-
-function determineCspHeaders(req, res, next) {
-    res.cspOptions = [];
-    if (req.params && req.params.viewToRender) {
-        const exploded = req.url.split("/");
-        exploded.splice(0, 3);
-        if (-1 < exploded.indexOf("sandbox")) {
-            res.cspOptions = parseSandboxRequest(exploded);
-            res.set("Content-Security-Policy", res.cspOptions.join(" "));
-        }
-    }
-    next();
-}
-
-
-function determineEmbeddedView(req, res, next) {
-    const possibleView = `${req.params.viewToRender || "embedded"}.html.j2`;
-    if (fs.existsSync(path.join(__dirname, "views", possibleView))) {
-        res.actualView = possibleView;
-    } else {
-        res.actualView = "embedded.html.j2";
-    }
-    next();
-}
-
-nunjucks.configure("views", {
-    autoescape: true,
-    express: app,
-    noCache: true,
-    watch: true
-});
-
-// app.all("*", buildCspResFromReq);
-
-app.post("/csp-violation-report", (req, res) => {
-    console.log(req.body);
-    res.sendStatus(204);
-});
-
-app.get("/", (req, res) => {
-    res.render("index.html.j2");
-});
-
-app.get(
-    ["/embedded/:viewToRender", "/embedded/:viewToRender/*"],
-    determineEmbeddedView,
-    determineCspHeaders,
-    (req, res) => {
-        res.set("Cache-Control", "no-cache");
-        res.render(res.actualView, {cspOptions: res.cspOptions});
-    }
-);
-
+// Catch all other routes and return the index file
 app.get("*", (req, res) => {
-    res.status(404).send("Route not defined");
+    res.sendFile(path.join(__dirname, "runner-dist/index.html"));
 });
 
-app.listen(9001, "127.0.0.200", () => {
-    console.log("Example app listening on port 127.0.0.200:9001!");
-});
+/**
+ * Get port from environment and store in Express.
+ */
+const port = process.env.PORT || "3000";
+app.set("port", port);
 
-app.listen(9001, "127.0.0.201", () => {
-    console.log("Example app listening on port 127.0.0.201:9001!");
-});
+/**
+ * Create HTTP server.
+ */
+const server = http.createServer(app);
+
+/**
+ * Listen on provided port, on all network interfaces.
+ */
+server.listen(port, () => {return console.log(`API running on localhost:${port}`);});

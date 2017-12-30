@@ -1,0 +1,17 @@
+<nav id="main-nav" class="navbar navbar-expand-lg bg-primary navbar-dark" [class.fixed-top]="currentPosition > originalPosition" (pagePosition)="updatePosition($event)" runnerTrackedAnchor>
+    <div class="container px-sm-3">
+        <a class="navbar-brand" href="#top"><code class="shrink">CSP|iframe</code> <code>sandbox</code> Comparison</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#mainNavCollapse" aria-controls="mainNavCollapse" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="mainNavCollapse">
+            <nav id="main-scroll" class="nav navbar-nav mr-auto">
+                <runner-navanchor linkTarget="#lead">Top</runner-navanchor>
+                <runner-navanchor linkTarget="#privacy">Privacy</runner-navanchor>
+                <runner-navanchor linkTarget="#overview">Overview</runner-navanchor>
+                <runner-navanchor linkTarget="#sandbox-demo"><code>sandbox</code> Demo</runner-navanchor>
+                <runner-navanchor linkTarget="#other-stuff">Other Stuff</runner-navanchor>
+            </nav>
+        </div>
+    </div>
+</nav>

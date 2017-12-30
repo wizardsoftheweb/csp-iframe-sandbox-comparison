@@ -1,0 +1,13 @@
+html,
+body,
+main {
+      box-sizing: border-box;
+      height: 100%;
+      margin: 0;
+      position: relative;
+      font-size: 16px;
+      font-family: "Lato", serif;
+}
+#main-nav .active {
+    color: #00bc8c;
+}

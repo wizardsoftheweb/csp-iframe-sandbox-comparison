@@ -1,0 +1,12 @@
+{% extends "scripts.html.j2" %}
+{% block main_with_javascript %}
+<p>This link should load in a new frame: <a href="http://google.com" target="_parent">Google.com</a></p>
+<p>This embed attempts to open a link in a new frame. You may have to enable popups to view the behavior.</p>
+{% endblock %}
+{% block scripts_with_javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        window.open(`//${location.host.replace(200,201)}/modals`, "_parent");
+    });
+</script>
+{% endblock %}

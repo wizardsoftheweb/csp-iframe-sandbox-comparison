@@ -28,7 +28,7 @@ export class NavanchorComponent implements OnInit {
 
     public ngAfterViewInit() {
         // this.activeSubscription = this.
-        console.log(this.linkTarget);
+        // console.log(this.linkTarget);
     }
     public updateActiveState(event) {
         this.isActive = event;

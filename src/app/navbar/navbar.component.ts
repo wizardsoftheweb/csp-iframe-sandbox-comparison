@@ -4,9 +4,9 @@ import { ScrollSpyService } from "../scroll-spy.service";
 import { TrackedAnchorDirective } from "../tracked-anchor.directive";
 
 @Component({
-  selector: "runner-navbar",
-  templateUrl: "./navbar.component.html",
-  styleUrls: ["./navbar.component.css"],
+    selector: "runner-navbar",
+    templateUrl: "./navbar.component.html",
+    styleUrls: ["./navbar.component.css"],
 })
 export class NavbarComponent implements OnInit {
 
@@ -24,16 +24,16 @@ export class NavbarComponent implements OnInit {
         console.log(event);
     }
 
-  public ngOnInit() {
-      this.scrollSub = this.scrollSpyService.position$
-      .subscribe((value) => {
-          console.log(this.currentPosition, this.originalPosition);
-          this.currentPosition = value;
-      });
-  }
+    public ngOnInit() {
+        this.scrollSub = this.scrollSpyService.position$
+            .subscribe((value) => {
+                // console.log(this.currentPosition, this.originalPosition);
+                this.currentPosition = value;
+            });
+    }
 
-  public updatePosition(position) {
-      this.originalPosition = position;
-  }
+    public updatePosition(position) {
+        this.originalPosition = position;
+    }
 
 }

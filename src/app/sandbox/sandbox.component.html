@@ -1,0 +1,78 @@
+<section class="row justify-content-center" id="sandbox-demo" runnerTrackedAnchor>
+    <h2 class="col-12"><code>sandbox</code> demo</h2>
+
+            <pre class="col-12" style="background-color: white">{{ myForm.value | json }}</pre>
+    <div class="col-12 col-md-4 col-lg-3">
+        <nav class="nav nav-pills flex-column justify-content-center text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <runner-sandbox-sidebar-links href="sandbox">sandbox</runner-sandbox-sidebar-links>
+            <runner-sandbox-sidebar-links *ngFor="let prop of props" [href]="prop">allow-{{ prop }}</runner-sandbox-sidebar-links>
+        </nav>
+    </div>
+    <div class="col-12 col-md-8 col-lg-9 justify-content-center">
+        <form name="sandbox-controls" #myForm="ngForm">
+            <div class="card" id="sandbox-controls">
+                <div class="table-responsive">
+                    <table class="table mb-0">
+                        <thead class="bg-info">
+                            <tr id="sandbox-controls-header">
+                                <th>Source</th>
+                                <th class="csp-sandbox"><code>sandbox</code></th>
+                                <th *ngFor="let prop of props" class="sandbox-property off sandbox-allow-{{prop}}"><code>allow-{{prop}}</code></th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr id="csp-controls" data-toggle="tooltip">
+                                <th class="align-middle"><span>CSP</span></th>
+                                <td class="always-enabled align-middle">
+                                    <div class="btn-group btn-group-toggle">
+                                        <label class="btn btn-success active">
+                                            <input id="csp-sandbox" name="csp-sandbox" type="checkbox" checked autocomplete="on" ngModel><span class="toggle-state-desc">On</span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td *ngFor="let prop of props" class="sandbox-property off sandbox-allow-{{prop}} align-middle">
+                                    <div class="btn-group btn-group-toggle">
+                                        <label class="btn btn-danger">
+                                            <input id="csp-{{prop}}" name="csp-{{prop}}" type="checkbox" autocomplete="off" ngModel><span class="toggle-state-desc">Off</span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="reset always-enabled align-middle">
+                                    <button name="csp-reset" class="btn btn-primary">Reset</button>
+                                </td>
+                            </tr>
+                            <tr id="iframe-controls" data-toggle="tooltip">
+                                <th class="align-middle"><span><code>iframe</code></span></th>
+                                <td class="always-enabled align-middle">
+                                    <div class="btn-group btn-group-toggle">
+                                        <label class="btn btn-success active">
+                                            <input id="iframe-sandbox" name="iframe-sandbox" type="checkbox" checked autocomplete="on" ngModel><span class="toggle-state-desc">On</span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td *ngFor="let prop of props" class="sandbox-property off sandbox-allow-{{prop}} align-middle">
+                                    <div class="btn-group btn-group-toggle">
+                                        <label class="btn btn-danger">
+                                            <input id="iframe-{{prop}}" name="iframe-{{prop}}" type="checkbox" autocomplete="off" ngModel><span class="toggle-state-desc">Off</span>
+                                        </label>
+                                    </div>
+                                </td>
+                                <td class="reset always-enabled align-middle">
+                                    <button name="iframe-reset" class="btn btn-primary">Reset</button>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </form>
+        <div class="card">
+            <div class="card-header bg-info">
+                CSP Embed
+            </div>
+            <div id="embed-here" class="card-body">
+            </div>
+        </div>
+    </div>
+</section>

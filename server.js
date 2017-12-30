@@ -4,16 +4,16 @@ const nunjucks = require("nunjucks");
 const app = express();
 
 const STRIPPED_SANDBOX_VALUES = [
-    // "forms",
-    // "same-origin",
+    "forms",
+    "same-origin",
     "scripts",
-    // "popups,",
+    "popups",
     "modals",
-    // "orientation-lock",
-    // "pointer-lock",
-    // "presentation",
-    // "popups-to-escape-sandbox",
-    // "top-navigation",
+    "orientation-lock",
+    "pointer-lock",
+    "presentation",
+    "popups-to-escape-sandbox",
+    "top-navigation",
 ];
 
 function cleanSandboxOption(optionToClean) {

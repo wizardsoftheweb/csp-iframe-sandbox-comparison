@@ -1,0 +1,13 @@
+{% extends "scripts.html.j2" %}
+{% block main_with_javascript %}
+<p>This link should load in a new frame: <a href="http://127.0.0.201:9001/embedded/forms" target="same-target">the <code>form</code> demo</a>.</p>
+<p>This embed attempts to open a link in a new frame. You may have to enable popups to view the behavior.</p>
+<p>With everything disabled, the popup will be able to submit a form, privileges it does not have in a sandbox.</p>
+{% endblock %}
+{% block scripts_with_javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        window.open(`http://127.0.0.201:9001/embedded/forms`, "frameTarget");
+    });
+</script>
+{% endblock %}

@@ -1,0 +1,17 @@
+{% extends "scripts.html.j2" %}
+{% block main_with_javascript %}
+<script type="text/javascript">
+    function submit() {
+        console.log(document.forms["simpleForm"]["someText"].value);
+        return true;
+    }
+</script>
+<form name="simpleForm" action="/basic/forms" method="post">
+    <fieldset>
+        <input name="someText" id="someText" type="text" placeholder="some text" />
+    </fieldset>
+<input type="submit" value="Submit" />
+</form>
+{% endblock %}
+{% block scripts_with_javascript %}
+{% endblock %}

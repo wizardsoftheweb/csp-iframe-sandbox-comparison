@@ -20,6 +20,10 @@
             <a class="nav-link" href="#" id="v-pills-scripts" role="tab" aria-controls="allow-scripts" aria-selected="false" data-view="scripts" data-props='["scripts"]'><code>allow-scripts</code></a>
             <a class="nav-link" href="#" id="v-pills-popups" role="tab" aria-controls="allow-popups" aria-selected="false" data-view="popups" data-props='["scripts","popups"]'><code>allow-popups</code></a>
             <a class="nav-link" href="#" id="v-pills-scripts" role="tab" aria-controls="allow-modals" aria-selected="false" data-view="modals" data-props='["scripts","modals"]'><code>allow-modals</code></a>
+            <a class="nav-link" href="#" id="v-pills-forms" role="tab" aria-controls="allow-forms" aria-selected="false" data-view="forms" data-props='["scripts","forms"]'><code>allow-forms</code></a>
+            <a class="nav-link" href="#" id="v-pills-presentation" role="tab" aria-controls="allow-presentation" aria-selected="false" data-view="presentation" data-props='["scripts","presentation","popups"]'><code>allow-presentation</code></a>
+            <a class="nav-link" href="#" id="v-pills-top-navigation" role="tab" aria-controls="allow-top-navigation" aria-selected="false" data-view="top-navigation" data-props='["scripts","popups","top-navigation"]' data-leaves-parent="true"><code>allow-top-navigation</code></a>
+            <a class="nav-link" href="#" id="v-pills-popups-to-escape-sandbox" role="tab" aria-controls="allow-popups-to-escape-sandbox" aria-selected="false" data-view="popups-to-escape-sandbox" data-props='["scripts","popups","top-navigation","popups-to-escape-sandbox"]' data-leaves-parent="true"><code>allow-popups-to-escape-sandbox</code></a>
         </nav>
     </div>
     <div class="col-12 col-md-8 col-lg-9 justify-content-center">
@@ -90,6 +94,13 @@
                 CSP Embed
             </div>
             <div id="embed-here" class="card-body">
+            </div>
+        </div>
+        <div id="target-card" class="card" style="display:none">
+            <div class="card-header bg-info">
+                Additional frame target
+            </div>
+            <div id="target-here" class="card-body">
             </div>
         </div>
     </div>

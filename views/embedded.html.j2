@@ -9,6 +9,12 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block styles %} {% endblock %}
+    <style type="text/css">
+    body {
+        font-family: 'Roboto Mono', monospace;
+    }
+
+    </style>
 </head>
 
 <body>
@@ -28,7 +34,6 @@
                 <li><code>{{ option }}</code></li>
                 {% endfor %}
             </ul>
-            {% include "partials/jQuery.j2" %}
             {% else %}
             <h3>No enabled CSP options</h3>
             {% endif %}

@@ -1,0 +1,74 @@
+<section class="row justify-content-center" id="sandbox-demo">
+    <h2 class="col-12"><code>sandbox</code> demo</h2>
+    <div class="col-12" id="sandbox-controls">
+        <table class="table table-responsive">
+            <thead>
+                <tr>
+                    <th>Source</th>
+                    <th><code>sandbox</code></th>
+                    <th><code>allow-scripts</code></th>
+                    <th><code>allow-modals</code></th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr id="csp-controls" data-toggle="tooltip">
+                    <th class="align-middle"><span><code>Content-Security-Policy</code> header</span></th>
+                    <td class="always-enabled align-middle">
+                        <div class="btn-group btn-group-toggle">
+                            <label class="btn btn-success active">
+                                <input id="csp-sandbox" type="checkbox" checked autocomplete="on"><span class="toggle-state-desc">On</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="btn-group btn-group-toggle">
+                            <label class="btn btn-danger">
+                                <input id="csp-allow-scripts" type="checkbox" autocomplete="off"><span class="toggle-state-desc">Off</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="btn-group btn-group-toggle">
+                            <label class="btn btn-outline-danger disabled">
+                                <input id="csp-allow-modals" type="checkbox" autocomplete="off" disabled><span class="toggle-state-desc">Off</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="always-enabled align-middle">
+                        <button class="btn btn-primary">Reset</button>
+                    </td>
+                </tr>
+                <tr id="iframe-controls" data-toggle="tooltip">
+                    <th class="align-middle"><span><code>iframe</code> attribute</span></th>
+                    <td class="always-enabled align-middle">
+                        <div class="btn-group btn-group-toggle">
+                            <label class="btn btn-success active">
+                                <input id="iframe-sandbox" type="checkbox" checked autocomplete="on"><span class="toggle-state-desc">On</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="btn-group btn-group-toggle">
+                            <label class="btn btn-danger">
+                                <input id="iframe-allow-scripts" type="checkbox" autocomplete="off"><span class="toggle-state-desc">Off</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="align-middle">
+                        <div class="btn-group btn-group-toggle">
+                            <label class="btn btn-outline-danger disabled">
+                                <input id="iframe-allow-modals" type="checkbox" autocomplete="off" disabled><span class="toggle-state-desc">Off</span>
+                            </label>
+                        </div>
+                    </td>
+                    <td class="always-enabled align-middle">
+                        <button class="btn btn-primary">Reset</button>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <div class="col-12 col-md-8" id="embed-here">
+    </div>
+</section>

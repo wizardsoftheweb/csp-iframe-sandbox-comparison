@@ -63,7 +63,7 @@ nunjucks.configure("views", {
 app.all("*", buildCspResFromReq);
 
 app.get("/", (req, res) => {
-    res.render("index.html");
+    res.render("index.html.j2");
 });
 
 app.get("/modals", (req, res) => {

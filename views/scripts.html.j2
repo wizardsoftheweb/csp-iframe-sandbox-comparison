@@ -5,6 +5,7 @@
 {% endblock %}
 {% endblock %}
 {% block scripts %}
+{% include "partials/jQuery.j2" %}
 <script type="text/javascript">
     $(document).ready(function() {
         $("#main").append("<p>This paragraph was dynamically added by JS.</p>");

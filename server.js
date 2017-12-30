@@ -1,7 +1,11 @@
+const bodyParser = require("body-parser");
 const express = require("express");
+const fs = require("fs");
 const nunjucks = require("nunjucks");
+const path = require("path");
 
 const app = express();
+app.use(bodyParser.json({type: ["application/json", "application/csp-report"]}));
 
 const STRIPPED_SANDBOX_VALUES = [
     "forms",
@@ -32,23 +36,36 @@ function reduceToProperOptions(accumulator, currentOption) {
     return accumulator;
 }
 
-function parseSandboxRequest(req) {
-    if (req && req.query && req.query.sandbox) {
-        return (req.query.sandbox || "")
-            .split(/[+ ]/)
+function parseSandboxRequest(options) {
+    return ["sandbox"].concat(
+        options
             .reduce(
                 reduceToProperOptions,
-                ["sandbox"]
-            );
-    }
-    return [];
+                []
+            )
+    );
 }
 
-function buildCspResFromReq(req, res, next) {
-    let cspOptions = parseSandboxRequest(req);
-    res.cspOptions = cspOptions || [];
-    if (res.cspOptions.length > 0) {
-        res.set("Content-Security-Policy", cspOptions.join(" "));
+function determineCspHeaders(req, res, next) {
+    res.cspOptions = [];
+    if (req.params && req.params.viewToRender) {
+        const exploded = req.url.split("/");
+        exploded.splice(0, 3);
+        if (-1 < exploded.indexOf("sandbox")) {
+            res.cspOptions = parseSandboxRequest(exploded);
+            res.set("Content-Security-Policy", res.cspOptions.join(" "));
+        }
+    }
+    next();
+}
+
+
+function determineEmbeddedView(req, res, next) {
+    const possibleView = `${req.params.viewToRender || "embedded"}.html.j2`;
+    if (fs.existsSync(path.join(__dirname, "views", possibleView))) {
+        res.actualView = possibleView;
+    } else {
+        res.actualView = "embedded.html.j2";
     }
     next();
 }
@@ -60,22 +77,29 @@ nunjucks.configure("views", {
     watch: true
 });
 
-app.all("*", buildCspResFromReq);
+// app.all("*", buildCspResFromReq);
+
+app.post("/csp-violation-report", (req, res) => {
+    console.log(req.body);
+    res.sendStatus(204);
+});
 
 app.get("/", (req, res) => {
     res.render("index.html.j2");
 });
 
-app.get("/embedded", (req, res) => {
-    res.render("embedded.html.j2", {cspOptions: res.cspOptions});
-});
-
-app.get("/:optionDemo", (req, res) => {
-    if (isAValidStrippedOption(req.params.optionDemo)) {
-        res.render(`${req.params.optionDemo}.html.j2`, {cspOptions: res.cspOptions});
-    } else {
-        res.status(404).send("Route not defined");
+app.get(
+    ["/embedded/:viewToRender", "/embedded/:viewToRender/*"],
+    determineEmbeddedView,
+    determineCspHeaders,
+    (req, res) => {
+        res.set("Cache-Control", "no-cache");
+        res.render(res.actualView, {cspOptions: res.cspOptions});
     }
+);
+
+app.get("*", (req, res) => {
+    res.status(404).send("Route not defined");
 });
 
 app.listen(9001, "127.0.0.200", () => {

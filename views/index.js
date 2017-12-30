@@ -38,9 +38,11 @@ $(document).ready(function() {
     $(window).on("activate.bs.scrollspy", function(event) {
         const currentHref = location.href;
         const storedHash = location.hash;
-        const triggeredHash = $("a[href^='#']", event.target)
+        const triggeredHash = $("#main-nav a.active")
             .attr("href")
             .replace("#top", "");
+        console.log(triggeredHash);
+
         history.replaceState({},
             "",
             currentHref.replace(storedHash, "") + triggeredHash

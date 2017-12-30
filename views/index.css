@@ -85,3 +85,11 @@
     th {
         text-align: center;
     }
+
+    #v-pills-tab button {
+        border: none;
+    }
+
+    #v-pills-tab button:not(.active) {
+        background: inherit;
+    }

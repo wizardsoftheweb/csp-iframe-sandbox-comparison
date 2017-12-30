@@ -66,6 +66,14 @@ app.get("/", (req, res) => {
     res.render("index.html.j2");
 });
 
+app.get("/embedded", (req, res) => {
+    res.render("embedded.html.j2", {cspOptions: res.cspOptions});
+});
+
+app.get("/scripts", (req, res) => {
+    res.render("scripts.html.j2", {cspOptions: res.cspOptions});
+});
+
 app.get("/modals", (req, res) => {
     res.render("modals.html.j2", {cspOptions: res.cspOptions});
 });

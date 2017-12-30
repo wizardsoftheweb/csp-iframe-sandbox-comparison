@@ -15,21 +15,19 @@ const OPTION_STATE = {
     },
 };
 const MAIN_NAV = $("#main-nav");
-const SCROLL_SPY_SHIFT_REDUCTION = 10;
+const SCROLL_SPY_SHIFT = 10;
 
 let MAIN_NAV_HEIGHT_CONTRIBUTION;
-let SCROLL_SPY_SHIFT;
+let SCROLL_SPY_OFFSET;
 
 $(document).ready(function() {
-    MAIN_NAV_HEIGHT_CONTRIBUTION = Math.min(
-        parseInt(MAIN_NAV.css("max-height")),
-        MAIN_NAV.height()
-    );
-
-    SCROLL_SPY_SHIFT = Math.max(
-        MAIN_NAV_HEIGHT_CONTRIBUTION,
-        $("body").data().offset - SCROLL_SPY_SHIFT_REDUCTION
-    );
+    MAIN_NAV_HEIGHT_CONTRIBUTION = parseInt(MAIN_NAV.css("height"));
+    SCROLL_SPY_OFFSET = MAIN_NAV_HEIGHT_CONTRIBUTION + SCROLL_SPY_SHIFT;
+    // $("body>.jumbotron-fluid").css("margin-top", `${SCROLL_SPY_OFFSET}px`);
+    $("body").scrollspy({
+        target: "#main-nav",
+        offset: SCROLL_SPY_OFFSET
+    });
 
     // @todo: write-up around this answer
     // https://stackoverflow.com/a/23084780/2877698
@@ -41,8 +39,6 @@ $(document).ready(function() {
         const triggeredHash = $("#main-nav a.active")
             .attr("href")
             .replace("#top", "");
-        console.log(triggeredHash);
-
         history.replaceState({},
             "",
             currentHref.replace(storedHash, "") + triggeredHash
@@ -51,7 +47,7 @@ $(document).ready(function() {
 
     $("a[href^='#']").not("a[href='#']").click(function(event) {
         const target = $($.attr(this, "href"));
-        if (target) {
+        if (target && target.length > 0) {
             event.preventDefault();
             scrollToElement(target);
         }
@@ -62,16 +58,19 @@ $(document).ready(function() {
     reloadEmbed();
 
     SANDBOX_CONTROLS.find("input[type='checkbox']").change(function() {
+        updateToggleState($(this));
         reloadEmbed();
     });
 
     SANDBOX_CONTROLS.find("td > button.btn.btn-primary").click(function() {
         let owningRow = $(this).closest("tr");
-        owningRow.find("input[id$='sandbox']").bootstrapToggle("on");
+        owningRow.find("input[id$='sandbox']")
+            .prop("checked", true);
         owningRow.find("input[id*='-allow-']").each(function() {
-            $(this)
-                .bootstrapToggle("enable")
-                .bootstrapToggle("off");
+            $(this).prop("checked", false);
+        });
+        owningRow.find("input[type='checkbox']").each(function() {
+            updateToggleState($(this));
         });
         reloadEmbed();
     });
@@ -79,7 +78,7 @@ $(document).ready(function() {
 
 function scrollToElement(target, scrollTime = 300) {
     $("html, body").animate({
-        scrollTop: target.offset().top - SCROLL_SPY_SHIFT
+        scrollTop: target.offset().top - SCROLL_SPY_OFFSET
     },
     scrollTime,
     function() {
@@ -126,35 +125,69 @@ function rebuildAllControlStates(cspSandboxed = true, iframeSandboxed = true) {
 }
 
 function rebuildSingleControlState(source, sandboxed = true) {
-    OPTION_STATE[source].controls.toggleClass("danger", !sandboxed);
+    OPTION_STATE[source].controls.toggleClass("bg-secondary", !sandboxed);
     OPTION_STATE[source].controls.find("th, td:not(.always-enabled) .btn").toggleClass("disabled", !sandboxed);
-    toggleToggleInteraction(OPTION_STATE[source].scripts, !sandboxed);
+    toggleInteraction(OPTION_STATE[source].scripts, !sandboxed);
     rebuildSingleModalState(source, !sandboxed || !OPTION_STATE[source].scripts.is(":checked"));
-    // if (sandboxed) {
-    //     OPTION_STATE[source].controls.tooltip("destroy");
-    // } else {
-    //     OPTION_STATE[source].controls.find("td, th").tooltip("destroy");
-    //     OPTION_STATE[source].controls.tooltip({
-    //         title: `The ${source} sandbox is not currently enabled`
-    //     });
-    // }
+    if (sandboxed) {
+        OPTION_STATE[source].controls.tooltip("dispose");
+    } else {
+        OPTION_STATE[source].controls.find("td, th").tooltip("dispose");
+        OPTION_STATE[source].controls.tooltip({
+            title: `The ${source} sandbox is not currently enabled`,
+            html: true,
+            container: "#sandbox-controls",
+        });
+    }
 }
 
-function toggleToggleInteraction(toggleElement, disabled = true) {
-    toggleElement.bootstrapToggle(disabled ? "disable" : "enable");
-    toggleElement.parent().find(".btn").toggleClass("disabled", disabled);
+function toggleInteraction(control, disabled = true) {
+    control.prop("disabled", disabled);
+    const label = control.closest("label");
+    if (label.length > 0) {
+        label.toggleClass("opt-disabled", disabled);
+        label.toggleClass("disabled", disabled);
+        const currentClasses = label.attr("class");
+        if (disabled && currentClasses) {
+            label.attr(
+                "class",
+                currentClasses
+                    .replace(
+                        /btn-([a-z]+)( |$)/,
+                        "btn-outline-$1$2"
+                    )
+            );
+        } else {
+            label.attr(
+                "class",
+                currentClasses
+                    .replace(
+                        /btn-outline-([a-z]+)( |$)/,
+                        "btn-$1$2"
+                    )
+            );
+        }
+    }
 }
 
 function rebuildSingleModalState(source, scriptsDisabled = true) {
-    toggleToggleInteraction(OPTION_STATE[source].modals, scriptsDisabled);
-    // OPTION_STATE[source].modals.closest("td")
-    //     .toggleClass("opt-disabled", scriptsDisabled)
-    //     .tooltip(
-    //         scriptsDisabled ? {
-    //             title: "<code>allow-scripts</code> must be enabled",
-    //             html: true,
-    //             container: "#sandbox-controls",
-    //         } :
-    //             "destroy"
-    //     );
+    toggleInteraction(OPTION_STATE[source].modals, scriptsDisabled);
+    OPTION_STATE[source].modals.closest("td")
+        .tooltip(
+            scriptsDisabled ? {
+                title: "<code>allow-scripts</code> must be enabled",
+                html: true,
+                container: "#sandbox-controls",
+            } :
+                "dispose"
+        );
+}
+
+function updateToggleState(target) {
+    const active = target.is(":checked");
+    const label = target.closest("label");
+    label.toggleClass("active", active);
+    label.toggleClass("btn-success", active);
+    label.toggleClass("btn-danger", !active);
+    label.find(".toggle-state-desc").text(active ? "On" : "Off");
 }

@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+{#     <!-- Google Tag Manager -->
+    <script>
+    (function(w, d, s, l, i) {
+        w[l] = w[l] || [];
+        w[l].push({
+            'gtm.start': new Date().getTime(),
+            event: 'gtm.js'
+        });
+        var f = d.getElementsByTagName(s)[0],
+            j = d.createElement(s),
+            dl = l != 'dataLayer' ? '&l=' + l : '';
+        j.async = true;
+        j.src =
+            'https://www.googletagmanager.com/gtm.js?id=' + i + dl;
+        f.parentNode.insertBefore(j, f);
+    })(window, document, 'script', 'dataLayer', 'GTM-M9D96VX');
+
+    </script>
+    <!-- End Google Tag Manager --> #}
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title>CSP and iframe sandbox Comparison | wizardsoftheweb</title>
+    <meta name="HandheldFriendly" content="True">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="This article presents a simple Content-Security-Policy sandbox header and iframe sandbox attribute comparison to illustrate their usage together.">
+    <link rel="canonical" href="https://wizardsoftheweb.pro/csp-iframe-sandbox-comparison/">
+    <meta name="referrer" content="no-referrer-when-downgrade">
+    <meta property="og:site_name" content="Wizards of the Web">
+    <meta property="og:type" content="article">
+    <meta property="og:title" content="CSP and iframe sandbox Comparison">
+    <meta property="og:description" content="This article presents a simple Content-Security-Policy sandbox header and iframe sandbox attribute comparison to illustrate their usage together.">
+    <meta property="og:url" content="https://wizardsoftheweb.pro/csp-iframe-sandbox-comparison/ ">
+    <meta property="article:published_time" content="2017-12-25T15:00:00.000Z">
+    <meta property="article:tag" content="sandbox">
+    <meta property="article:tag" content="Content-Security-Policy">
+    <meta property="article:tag" content="header">
+    <meta property="article:tag" content="iframe">
+    <meta property="article:tag" content="attribute">
+    <meta property="article:tag" content="security">
+    <meta name="twitter:card" content="summary">
+    <meta name="twitter:title" content="CSP and iframe sandbox Comparison">
+    <meta name="twitter:description" content="This article presents a simple Content-Security-Policy sandbox header and iframe sandbox attribute comparison to illustrate their usage together.">
+    <meta name="twitter:url" content="https://wizardsoftheweb.pro/csp-iframe-sandbox-comparison/">
+    <meta name="twitter:label1" content="Written by">
+    <meta name="twitter:data1" content="CJ Harries">
+    <meta name="twitter:label2" content="Filed under">
+    <meta name="twitter:data2" content="sandbox, Content-Security-Policy, header, iframe, attribute, security">
+    <meta name="twitter:site" content="@wizardsoftheweb">
+    <meta name="twitter:creator" content="@wizardsoftheweb">
+    <script type="application/ld+json">
+    {
+        "@context": "https://schema.org",
+        "@type": "Article",
+        "publisher": {
+            "@type": "Organization",
+            "name": "Wizards of the Web",
+            "logo": "https://blog.wizardsoftheweb.pro/content/images/2017/09/test-inverted.png"
+        },
+        "author": {
+            "@type": "Person",
+            "name": "CJ Harries",
+            "url": "https://blog.wizardsoftheweb.pro/author/cj-harries/",
+            "sameAs": [
+                "http://wizardsoftheweb.pro",
+                "https://twitter.com/wizardsoftheweb"
+            ]
+        },
+        "headline": "CSP and iframe sandbox Comparison",
+        "url": "https://wizardsoftheweb.pro/csp-iframe-sandbox-comparison/",
+        "datePublished": "2017-12-25T15:00:00.000Z",
+        "keywords": "sandbox, Content-Security-Policy, header, iframe, attribute, security",
+        "description": "This article presents a simple Content-Security-Policy sandbox header and iframe sandbox attribute comparison to illustrate their usage together.",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https://wizardsoftheweb.pro/"
+        }
+    }
+
+    </script>
+    {% include "partials/common-fonts.j2" %}
+    {% include "partials/bootstrap-styles.j2" %}
+    <style>
+    {% include "index.css" %}
+    </style>
+</head>
+
+<body>
+{#     <!-- Google Tag Manager (noscript) -->
+    <noscript>
+        <iframe src="https://www.googletagmanager.com/ns.html?id=GTM-M9D96VX" height="0" width="0" style="display:none;visibility:hidden"></iframe>
+    </noscript>
+    <!-- End Google Tag Manager (noscript) --> #}
+    {% include "main-nav.html" %}
+        {% include "top.html" %}
+    <article class="container">
+        {% include "privacy.html" %}
+        {% include "overview.html" %}
+        {% include "sandbox.html.j2" %}
+        {% include "other-stuff.html" %}
+    </article>
+    {% include "partials/jQuery.j2" %}
+    {% include "partials/bootstrap-scripts.j2" %}
+    <script>
+        {% include "index.js" %}
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,12 @@
+{% extends "scripts.html.j2" %}
+{% block main_with_javascript %}
+<p>This link should load in a new frame: <a href="https://google.com" target="same-target">Google.com</a></p>
+<p>This embed attempts to open a link in a new frame. You may have to enable popups to view the behavior.</p>
+{% endblock %}
+{% block scripts_with_javascript %}
+<script type="text/javascript">
+    $(document).ready(function() {
+        window.open(`https://google.com`, "same-target");
+    });
+</script>
+{% endblock %}

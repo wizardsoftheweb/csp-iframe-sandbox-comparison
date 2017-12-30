@@ -9,14 +9,16 @@
     <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     {% block styles %} {% endblock %}
+    <style type="text/css">
+    body {
+        font-family: 'Roboto Mono', monospace;
+    }
+
+    </style>
 </head>
 
 <body>
     <article>
-        <header>
-            <h1>CSP Embed</h1>
-            <p>This is a simple CSP embed. Loaded in a <code>sandbox</code>, this will be the only paragraph.</p>
-        </header>
         <section id="main">
             {% block main %} {% endblock %}
         </section>
@@ -28,9 +30,8 @@
                 <li><code>{{ option }}</code></li>
                 {% endfor %}
             </ul>
-            {% include "partials/jQuery.j2" %}
             {% else %}
-            <h3>No enabled CSP options</h3>
+            <h3>No CSP header sent</h3>
             {% endif %}
         </footer>
         {% block scripts %} {% endblock %}

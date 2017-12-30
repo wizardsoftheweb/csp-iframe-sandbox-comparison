@@ -1,0 +1,94 @@
+    html,
+    body {
+        height: 100%;
+        position: relative;
+        font-size: 16px;
+        font-family: "Lato", serif;
+    }
+
+    #main-nav {
+        box-shadow: 0 10px 10px -5px rgba(55, 90, 127, 0.4);
+    }
+
+    #main-nav .active {
+        color: #00bc8c;
+    }
+
+    #main-nav .scroll-spy-only {
+        display: none;
+    }
+
+    body>.jumbotron-fluid {
+        min-height: 100vh;
+        display: flex;
+        /*flex-flow: row;*/
+        align-items: center;
+        /*justify-content: center;*/
+    }
+
+    footer {
+        margin-bottom: 20vh;
+    }
+
+    body>* a>code {
+        color: inherit;
+    }
+
+    body>* code {
+        font-family: "Roboto Mono", monospace;
+        padding: 0rem 0.4rem;
+        color: #f8f8f2;
+        background-color: #1b1d1e;
+        border: 1px solid #505354;
+    }
+
+    header {
+        margin-bottom: 20px;
+    }
+
+    div.list-group {
+        margin-bottom: 0;
+    }
+
+    #embed-here iframe {
+        width: 100%;
+        background-color: white;
+        border: 3px solid black;
+        min-height: 300px;
+    }
+
+    .opt-disabled {
+        cursor: not-allowed;
+    }
+
+    th.disabled span {
+        opacity: .65;
+    }
+
+    #sandbox-controls th,
+    #sandbox-controls td {
+        min-width: 100px;
+    }
+
+    th:first-of-type {
+        text-align: right;
+    }
+
+    tr,
+    td,
+    th {
+        text-align: center;
+        background-color: inherit;
+    }
+
+    #v-pills-tab button {
+        border: none;
+    }
+
+    #v-pills-tab button:not(.active) {
+        background: inherit;
+    }
+
+    .sandbox-property.off {
+        display: none !important;
+    }

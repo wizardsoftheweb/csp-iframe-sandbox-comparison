@@ -1,0 +1,96 @@
+{%
+    set props = [
+        "scripts",
+        "popups",
+        "modals",
+        "forms",
+        "same-origin",
+        "orientation-lock",
+        "pointer-lock",
+        "presentation",
+        "popups-to-escape-sandbox",
+        "top-navigation"
+    ]
+%}
+<section class="row justify-content-center" id="sandbox-demo">
+    <h2 class="col-12"><code>sandbox</code> demo</h2>
+    <div class="col-12 col-md-4 col-lg-3">
+        <nav class="nav nav-pills flex-column justify-content-center text-center" id="v-pills-tab" role="tablist" aria-orientation="vertical">
+            <a class="nav-link active" href="#" id="v-pills-sandbox" role="tab" aria-controls="sandbox" aria-selected="true" data-view="embedded" data-props="[]"><code>sandbox</code></a>
+            <a class="nav-link" href="#" id="v-pills-scripts" role="tab" aria-controls="allow-scripts" aria-selected="false" data-view="scripts" data-props='["scripts"]'><code>allow-scripts</code></a>
+            <a class="nav-link" href="#" id="v-pills-popups" role="tab" aria-controls="allow-popups" aria-selected="false" data-view="popups" data-props='["scripts","popups"]'><code>allow-popups</code></a>
+            <a class="nav-link" href="#" id="v-pills-scripts" role="tab" aria-controls="allow-modals" aria-selected="false" data-view="modals" data-props='["scripts","modals"]'><code>allow-modals</code></a>
+        </nav>
+    </div>
+    <div class="col-12 col-md-8 col-lg-9 justify-content-center">
+        <div class="card" id="sandbox-controls">
+            <div class="table-responsive">
+                <table class="table mb-0">
+                    <thead class="bg-info">
+                        <tr id="sandbox-controls-header">
+                            <th>Source</th>
+                            <th class="csp-sandbox"><code>sandbox</code></th>
+                            {% for prop in props %}
+                            <th class="sandbox-property off sandbox-allow-{{prop}}"><code>allow-{{prop}}</code></th>
+                            {% endfor %}
+                            <th></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id="csp-controls" data-toggle="tooltip">
+                            <th class="align-middle"><span>CSP</span></th>
+                            <td class="always-enabled align-middle">
+                                <div class="btn-group btn-group-toggle">
+                                    <label class="btn btn-success active">
+                                        <input id="csp-sandbox" type="checkbox" checked autocomplete="on"><span class="toggle-state-desc">On</span>
+                                    </label>
+                                </div>
+                            </td>
+                            {% for prop in props %}
+                            <td class="sandbox-property off sandbox-allow-{{prop}} align-middle">
+                                <div class="btn-group btn-group-toggle">
+                                    <label class="btn btn-danger">
+                                        <input id="csp-{{prop}}" data-controls="{{prop}}" type="checkbox" autocomplete="off"><span class="toggle-state-desc">Off</span>
+                                    </label>
+                                </div>
+                            </td>
+                            {% endfor %}
+                            <td class="reset always-enabled align-middle">
+                                <button class="btn btn-primary">Reset</button>
+                            </td>
+                        </tr>
+                        <tr id="iframe-controls" data-toggle="tooltip">
+                            <th class="align-middle"><span><code>iframe</code></span></th>
+                            <td class="always-enabled align-middle">
+                                <div class="btn-group btn-group-toggle">
+                                    <label class="btn btn-success active">
+                                        <input id="iframe-sandbox" type="checkbox" checked autocomplete="on"><span class="toggle-state-desc">On</span>
+                                    </label>
+                                </div>
+                            </td>
+                            {% for prop in props %}
+                            <td class="sandbox-property off sandbox-allow-{{prop}} align-middle">
+                                <div class="btn-group btn-group-toggle">
+                                    <label class="btn btn-danger">
+                                        <input id="iframe-{{prop}}" data-controls="{{prop}}" type="checkbox" autocomplete="off"><span class="toggle-state-desc">Off</span>
+                                    </label>
+                                </div>
+                            </td>
+                            {% endfor %}
+                            <td class="reset always-enabled align-middle">
+                                <button class="btn btn-primary">Reset</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="card">
+            <div class="card-header bg-info">
+                CSP Embed
+            </div>
+            <div id="embed-here" class="card-body">
+            </div>
+        </div>
+    </div>
+</section>

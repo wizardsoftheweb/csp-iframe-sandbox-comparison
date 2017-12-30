@@ -1,0 +1,15 @@
+<section class="row" id="overview">
+    <h2 class="col-12">Overview</h2>
+    <p class="col-12">
+        This page attempts to illustrate how <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox" target="_blank"><code>Content-Security-Policy</code> <code>sandbox</code> headers</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox" target="_blank"><code>iframe</code> <code>sandbox</code> attributes</a> interact. I couldn't find any practical examples and wasn't sure how this would actually turn out, so I built this. <strong>tl;dr:</strong> always set the <code>iframe</code> attribute; also set the <code>CSP</code> header when you can.
+    </p>
+    <p class="col-12">
+        Using the switches below, you can change the <code>CSP</code> header and the <code>iframe</code> attribute. The external file is created on-the-fly with proper headers and content.
+    </p>
+    <p class="col-12">
+        I didn't actually implement very many <code>sandbox</code> options. If there's something you'd like to see tested, shoot me an email (<code>cj@</code> this website) or check out <a href="//github.com/wizardsoftheweb/csp-iframe-sandbox-comparison" target="_blank">the repo</a> and make a PR or a fork.
+    </p>
+    <p class="col-12">
+        <strong>WARNING:</strong> disabling both <code>sandbox</code>es or turning on <code>allow-modals</code> triggers a vanilla <code>alert</code>. <code>alert</code>s are supremely annoying and should never be used unless you're trying to illustrate specific behavior (or you need a quick way to leave content live but make sure no one uses it more than once).
+    </p>
+</section>

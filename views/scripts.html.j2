@@ -1,10 +1,11 @@
 {% extends "embedded.html.j2" %}
 {% block main %}
-<p>This embed appends a paragraph <code>allow-scripts</code> is set.</p>
+<p>This embed appends a paragraph if <code>allow-scripts</code> is set.</p>
 {% block main_with_javascript %}
 {% endblock %}
 {% endblock %}
 {% block scripts %}
+{% include "partials/jQuery.j2" %}
 <script type="text/javascript">
     $(document).ready(function() {
         $("#main").append("<p>This paragraph was dynamically added by JS.</p>");

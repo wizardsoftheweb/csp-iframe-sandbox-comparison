@@ -65,25 +65,20 @@
         opacity: .65;
     }
 
-    #sandbox-controls {
-        display: flex;
-        flex-flow: row;
-        align-items: center;
-        justify-content: center;
-    }
-
-    #sandbox-controls table {
-        display: block;
-        width: auto;
+    #sandbox-controls th,
+    #sandbox-controls td {
+        min-width: 100px;
     }
 
     th:first-of-type {
         text-align: right;
     }
 
+    tr,
     td,
     th {
         text-align: center;
+        background-color: inherit;
     }
 
     #v-pills-tab button {

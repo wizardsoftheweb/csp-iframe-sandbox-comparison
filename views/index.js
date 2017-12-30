@@ -205,7 +205,6 @@ function generateControls() {
 }
 
 function enableHeader(prop) {
-    console.log(prop);
     const controlHeader = $($("#control-header").html());
     controlHeader.find("code").text(`allow-${prop}`);
     controlHeader.insertBefore(CONTROL_HEADER.find(".reset"));

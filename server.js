@@ -6,6 +6,7 @@ const path = require("path");
 
 const app = express();
 app.use(bodyParser.json({type: ["application/json", "application/csp-report"]}));
+app.use(bodyParser.urlencoded({extended: true}));
 
 const STRIPPED_SANDBOX_VALUES = [
     "forms",
@@ -78,6 +79,9 @@ nunjucks.configure("views", {
 });
 
 // app.all("*", buildCspResFromReq);
+app.post("/basic/forms", (req, res) => {
+    res.send("thanks!");
+});
 
 app.post("/csp-violation-report", (req, res) => {
     console.log(req.body);

@@ -4,7 +4,7 @@
         This page attempts to illustrate how <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Content-Security-Policy/sandbox" target="_blank"><code>Content-Security-Policy</code> <code>sandbox</code> headers</a> and <a href="https://developer.mozilla.org/en-US/docs/Web/HTML/Element/iframe#attr-sandbox" target="_blank"><code>iframe</code> <code>sandbox</code> attributes</a> interact. I couldn't find any practical examples and wasn't sure how this would actually turn out, so I built this. <strong>tl;dr:</strong> always set the <code>iframe</code> attribute; also set the <code>CSP</code> header when you can.
     </p>
     <p class="col-12">
-        Using the switches below, you can change the <code>CSP</code> header and the <code>iframe</code> attribute. <a href="//github.com/wizardsoftheweb/csp-iframe-sandbox-comparison/blob/master/embed-me.php" target="_blank">The external file, <code>embed-me.php</code></a>, is a simple PHP script that creates a <code>CSP</code> header from <code>$_GET</code> params and serves a very basic HTML page with some JavaScript.
+        Using the switches below, you can change the <code>CSP</code> header and the <code>iframe</code> attribute. The external file is created on-the-fly with proper headers and content.
     </p>
     <p class="col-12">
         I didn't actually implement very many <code>sandbox</code> options. If there's something you'd like to see tested, shoot me an email (<code>cj@</code> this website) or check out <a href="//github.com/wizardsoftheweb/csp-iframe-sandbox-comparison" target="_blank">the repo</a> and make a PR or a fork.

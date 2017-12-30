@@ -70,12 +70,12 @@ app.get("/embedded", (req, res) => {
     res.render("embedded.html.j2", {cspOptions: res.cspOptions});
 });
 
-app.get("/scripts", (req, res) => {
-    res.render("scripts.html.j2", {cspOptions: res.cspOptions});
-});
-
-app.get("/modals", (req, res) => {
-    res.render("modals.html.j2", {cspOptions: res.cspOptions});
+app.get("/:optionDemo", (req, res) => {
+    if (isAValidStrippedOption(req.params.optionDemo)) {
+        res.render(`${req.params.optionDemo}.html.j2`, {cspOptions: res.cspOptions});
+    } else {
+        res.status(404).send("Route not defined");
+    }
 });
 
 app.listen(9001, () => {

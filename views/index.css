@@ -88,3 +88,7 @@
     #v-pills-tab button:not(.active) {
         background: inherit;
     }
+
+    .sandbox-property.off {
+        display: none !important;
+    }

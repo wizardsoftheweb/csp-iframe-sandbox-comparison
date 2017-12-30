@@ -1,4 +1,5 @@
 const EMBED_CONTAINER = $("#embed-here");
+const TARGET_CONTAINER = $("#target-here");
 const SANDBOX_CONTROLS = $("#sandbox-controls");
 const CONTROL_HEADER = $("#sandbox-controls-header");
 const CSP_CONTROLS = $("#csp-controls");
@@ -97,6 +98,7 @@ function reloadEmbed() {
     let cspSandboxed = OPTION_STATE.csp.sandbox.is(":checked");
     let iframeSandboxed = OPTION_STATE.iframe.sandbox.is(":checked");
     EMBED_CONTAINER.find("iframe").remove();
+    TARGET_CONTAINER.find("iframe").remove();
     let embed = $("<iframe />");
     let source = "/embedded/" + $("#v-pills-tab .active").data().view;
     if (cspSandboxed) {
@@ -115,6 +117,7 @@ function reloadEmbed() {
         embed.attr("sandbox", options.join(" "));
     }
     EMBED_CONTAINER.append(embed);
+    TARGET_CONTAINER.append('<iframe name="frameTarget"></iframe>');
     rebuildAllControlStates(cspSandboxed, iframeSandboxed);
 }
 
@@ -184,12 +187,20 @@ function clearControls() {
         .find(".sandbox-property")
         .addClass("off")
         .removeClass("on");
+    $("#target-card").hide();
     SANDBOX_CONTROLS.find(".sandbox-property input[type='checkbox']").prop("checked", false);
 }
 
 function generateControls() {
     clearControls();
     const addedProps = $("#v-pills-tab .active").data().props || [];
+    if ($("#v-pills-tab .active").data().leavesParent) {
+        $("#target-card").show();
+
+    } else {
+        $("#target-card").hide();
+
+    }
     for (const prop of addedProps) {
         SANDBOX_CONTROLS
             .find(`.sandbox-allow-${prop}`)

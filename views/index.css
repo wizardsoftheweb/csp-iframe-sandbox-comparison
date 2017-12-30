@@ -50,7 +50,8 @@
         margin-bottom: 0;
     }
 
-    #embed-here iframe {
+    #embed-here iframe,
+    #target-here iframe {
         width: 100%;
         background-color: white;
         border: 3px solid black;
